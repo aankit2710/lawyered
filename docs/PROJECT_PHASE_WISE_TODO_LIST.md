@@ -1,7 +1,7 @@
 # Lawyered Will Maker - Complete Phase-Wise TODO Task List
 
 **Project**: AI-Assisted Will Maker using Next.js, NestJS, PostgreSQL, OpenAI GPT-4o-mini, Docker
-**Status**: Phase 0 Complete ✅ | Phase 1 In Progress 🚀
+**Status**: Phase 0 Complete ✅ | Phase 1 Complete ✅ | Phase 2 In Progress 🚀
 **Last Updated**: 2026-06-05
 
 ---
@@ -74,47 +74,47 @@
 ### Tasks
 
 #### 1.1 - User Entity & Database
-- [ ] Create User entity with fields: id, email, password, created_at, updated_at
-- [ ] Create user migration
-- [ ] Add indexes on email (unique)
-- [ ] Seed test users for development
+- [x] Create User entity with fields: id, email, password, created_at, updated_at
+- [x] Create user migration
+- [x] Add indexes on email (unique)
+- [x] Seed test users for development
 
 #### 1.2 - Registration API
-- [ ] Create POST /auth/register endpoint
-- [ ] Implement email validation
-- [ ] Implement password strength validation (min 8 chars, mixed case, numbers)
-- [ ] Hash passwords using bcrypt
-- [ ] Return JWT token on successful registration
-- [ ] Handle duplicate email errors
+- [x] Create POST /auth/register endpoint
+- [x] Implement email validation
+- [x] Implement password strength validation (min 8 chars, mixed case, numbers)
+- [x] Hash passwords using bcrypt
+- [x] Return JWT token on successful registration
+- [x] Handle duplicate email errors
 
 #### 1.3 - Login API
-- [ ] Create POST /auth/login endpoint
-- [ ] Implement email/password verification
-- [ ] Generate JWT token with 24h expiration
-- [ ] Return user data with token
-- [ ] Handle invalid credentials gracefully
+- [x] Create POST /auth/login endpoint
+- [x] Implement email/password verification
+- [x] Generate JWT token with 24h expiration
+- [x] Return user data with token
+- [x] Handle invalid credentials gracefully
 
 #### 1.4 - JWT Configuration
-- [ ] Install @nestjs/jwt and @nestjs/passport
-- [ ] Create JWT strategy
-- [ ] Configure JWT constants (secret, expiration)
-- [ ] Create @UseGuards(JwtAuthGuard) decorator
-- [ ] Create @CurrentUser() parameter decorator
+- [x] Install @nestjs/jwt and @nestjs/passport
+- [x] Create JWT strategy
+- [x] Configure JWT constants (secret, expiration)
+- [x] Create @UseGuards(JwtAuthGuard) decorator
+- [x] Create @CurrentUser() parameter decorator
 
 #### 1.5 - Protected Routes
-- [ ] Create AuthGuard middleware
-- [ ] Apply guards to protected endpoints
-- [ ] Create /auth/me endpoint (get current user)
-- [ ] Implement logout logic (token blacklist or client-side)
-- [ ] Test protected route access
+- [x] Create AuthGuard middleware
+- [x] Apply guards to protected endpoints
+- [x] Create /auth/me endpoint (get current user)
+- [x] Implement logout logic (token blacklist or client-side)
+- [x] Test protected route access
 
 #### 1.6 - Frontend Auth Implementation
-- [ ] Create Login page
-- [ ] Create Register page
-- [ ] Implement token storage (localStorage with encryption)
-- [ ] Create auth context/state management
-- [ ] Implement protected route wrapper
-- [ ] Add logout functionality
+- [x] Create Login page
+- [x] Create Register page
+- [x] Implement token storage (localStorage with encryption)
+- [x] Create auth context/state management
+- [x] Implement protected route wrapper
+- [x] Add logout functionality
 
 ### Deliverable
 ✅ User can register with email and password
