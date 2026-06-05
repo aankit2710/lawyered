@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  Index,
+} from 'typeorm';
 import { Will } from './will.entity';
 
 @Entity('chat_messages')
@@ -7,7 +14,7 @@ export class ChatMessage {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Will, (will) => will.chat_messages, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Will, will => will.chat_messages, { onDelete: 'CASCADE' })
   will: Will;
 
   @Column({ type: 'varchar', length: 20 })

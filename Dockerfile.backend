@@ -1,44 +1,30 @@
 # Backend Dockerfile for NestJS
 
-# Build stage
-FROM node:18-alpine AS builder
+FROM node:18-alpine@sha256:8d6421d663b4c28fd3ebc498332f249011d118945588d0a35cb9bc4b8ca09d9e AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-COPY apps/backend/package*.json ./apps/backend/
+# Install dependencies from the backend app lockfile for reproducible builds.
+COPY apps/backend/package.json apps/backend/package-lock.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install
+# Copy backend sources and build the app.
+COPY apps/backend ./
+RUN npm run build
 
-# Copy source code
-COPY . .
-
-# Build NestJS backend
-RUN npm run build --workspace=apps/backend
-
-# Production stage
-FROM node:18-alpine
+FROM node:18-alpine@sha256:8d6421d663b4c28fd3ebc498332f249011d118945588d0a35cb9bc4b8ca09d9e AS runner
 
 WORKDIR /app
+ENV NODE_ENV=production
 
-# Copy package files
-COPY package*.json ./
-COPY apps/backend/package*.json ./apps/backend/
+COPY apps/backend/package.json apps/backend/package-lock.json ./
+RUN npm ci --omit=dev
 
-# Install production dependencies
-RUN npm ci --only=production
+COPY --from=builder /app/dist ./dist
 
-# Copy built application from builder
-COPY --from=builder /app/apps/backend/dist ./apps/backend/dist
-
-# Expose port
 EXPOSE 3001
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3001/api/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
 
-# Start application
-CMD ["node", "apps/backend/dist/main"]
+CMD ["node", "dist/main"]

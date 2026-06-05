@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  Index,
+} from 'typeorm';
 import { Will } from './will.entity';
 
 @Entity('guardians')
@@ -7,7 +14,7 @@ export class Guardian {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Will, (will) => will.guardians, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Will, will => will.guardians, { onDelete: 'CASCADE' })
   will: Will;
 
   @Column({ type: 'varchar', length: 255 })

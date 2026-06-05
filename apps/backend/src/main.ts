@@ -20,7 +20,7 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-    }),
+    })
   );
 
   const port = process.env.BACKEND_PORT || 3001;

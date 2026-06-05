@@ -1,8 +1,9 @@
 import { Controller, Get, Patch, Body, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
-import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { PublicUser, sanitizeUser } from './user.mapper';
 import { User } from './entities/user.entity';
+import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
+import { CurrentUser } from '@/common/decorators/current-user.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -10,20 +11,18 @@ export class UsersController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  async getProfile(@CurrentUser() user: User): Promise<any> {
+  async getProfile(@CurrentUser() user: User): Promise<PublicUser> {
     const profile = await this.usersService.getProfile(user.id);
-    const { password, ...result } = profile;
-    return result;
+    return sanitizeUser(profile);
   }
 
   @Patch('me')
   @UseGuards(JwtAuthGuard)
   async updateProfile(
     @CurrentUser() user: User,
-    @Body() updates: { firstName?: string; lastName?: string },
-  ): Promise<any> {
+    @Body() updates: { firstName?: string; lastName?: string }
+  ): Promise<PublicUser> {
     const updated = await this.usersService.updateProfile(user.id, updates);
-    const { password, ...result } = updated;
-    return result;
+    return sanitizeUser(updated);
   }
 }

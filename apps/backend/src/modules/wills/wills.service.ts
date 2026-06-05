@@ -1,26 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { Will } from './entities/will.entity';
-import { User } from '../users/entities/user.entity';
+import { ChatMessage } from './entities/chat-message.entity';
+import { SnapshotService } from './snapshot.service';
 
 @Injectable()
 export class WillsService {
   constructor(
     @InjectRepository(Will)
-    private willsRepository: Repository<Will>,
+    private readonly willsRepository: Repository<Will>,
+    @InjectRepository(ChatMessage)
+    private readonly chatMessageRepository: Repository<ChatMessage>,
+    private readonly snapshotService: SnapshotService
   ) {}
 
   async create(userId: string, title?: string): Promise<Will> {
-    const will = this.willsRepository.create({
-      user: { id: userId },
-      status: 'DRAFT',
-      completion_percentage: 0,
-    });
-    return this.willsRepository.save(will);
+    const will = await this.willsRepository.save(
+      this.willsRepository.create({
+        user: { id: userId },
+        title: title?.trim() || 'Untitled Will',
+        status: 'DRAFT',
+        completion_percentage: 0,
+      })
+    );
+
+    await this.snapshotService.createInitialSnapshot(will.id);
+
+    return will;
   }
 
-  async findById(willId: string): Promise<Will> {
+  async saveChatMessage(
+    willId: string,
+    role: 'user' | 'assistant',
+    content: string,
+    metadata?: Record<string, any>
+  ): Promise<ChatMessage> {
+    const message = this.chatMessageRepository.create({
+      will: { id: willId },
+      role,
+      content,
+      metadata: metadata ?? undefined,
+    } as DeepPartial<ChatMessage>);
+
+    return this.chatMessageRepository.save(message) as Promise<ChatMessage>;
+  }
+
+  async findById(willId: string): Promise<Will | null> {
     return this.willsRepository.findOne({
       where: { id: willId },
       relations: [
@@ -35,7 +61,7 @@ export class WillsService {
     });
   }
 
-  async findByUserIdAndWillId(userId: string, willId: string): Promise<Will> {
+  async findByUserIdAndWillId(userId: string, willId: string): Promise<Will | null> {
     return this.willsRepository.findOne({
       where: { id: willId, user: { id: userId } },
       relations: [
@@ -66,12 +92,12 @@ export class WillsService {
     });
   }
 
-  async updateWill(willId: string, updates: Partial<Will>): Promise<Will> {
+  async updateWill(willId: string, updates: Partial<Will>): Promise<Will | null> {
     await this.willsRepository.update(willId, updates);
     return this.findById(willId);
   }
 
-  async updateCompletionPercentage(willId: string, percentage: number): Promise<Will> {
+  async updateCompletionPercentage(willId: string, percentage: number): Promise<Will | null> {
     return this.updateWill(willId, { completion_percentage: percentage });
   }
 

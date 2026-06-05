@@ -1,19 +1,20 @@
 import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import type { SignOptions } from 'jsonwebtoken';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   async register(
     email: string,
     password: string,
     firstName?: string,
-    lastName?: string,
+    lastName?: string
   ): Promise<any> {
     // Validate email format
     if (!this.isValidEmail(email)) {
@@ -23,7 +24,7 @@ export class AuthService {
     // Validate password strength
     if (!this.isStrongPassword(password)) {
       throw new BadRequestException(
-        'Password must be at least 8 characters and contain uppercase, lowercase, and numbers',
+        'Password must be at least 8 characters and contain uppercase, lowercase, and numbers'
       );
     }
 
@@ -69,13 +70,11 @@ export class AuthService {
   }
 
   private generateToken(userId: string): string {
-    return this.jwtService.sign(
-      { sub: userId },
-      {
-        secret: process.env.JWT_SECRET || 'dev_secret_key_change_in_production',
-        expiresIn: process.env.JWT_EXPIRATION || '24h',
-      },
-    );
+    const jwtSignOptions: SignOptions = {
+      expiresIn: (process.env.JWT_EXPIRATION ?? '24h') as SignOptions['expiresIn'],
+    };
+
+    return this.jwtService.sign({ sub: userId }, jwtSignOptions);
   }
 
   private isValidEmail(email: string): boolean {

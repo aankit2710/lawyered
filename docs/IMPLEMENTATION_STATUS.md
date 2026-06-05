@@ -132,6 +132,9 @@ Ready to implement:
 
 - [PHASE_0_COMPLETION.md](./PHASE_0_COMPLETION.md) - Phase 0 details
 - [PHASE_1_COMPLETION.md](./PHASE_1_COMPLETION.md) - Phase 1 details
+- [PHASE_3_COMPLETION.md](./PHASE_3_COMPLETION.md) - Phase 3 details
+- [PHASE_6_COMPLETION.md](./PHASE_6_COMPLETION.md) - Phase 6 details
+- [PHASE_7_COMPLETION.md](./PHASE_7_COMPLETION.md) - Phase 7 details
 - [PROJECT_PHASE_WISE_TODO_LIST.md](./PROJECT_PHASE_WISE_TODO_LIST.md) - Full roadmap
 - [../README.md](../README.md) - Getting started guide
 - [../QUICK_START.md](../QUICK_START.md) - Quick reference
@@ -145,7 +148,12 @@ Ready to implement:
 | Phase 0 | ✅ Complete | 39 | 1 session |
 | Phase 1 | ✅ Complete | 18 | 1 session |
 | Phase 2 | ✅ Complete | 14 | 1 session |
-| Phase 3+ | 📋 Planned | - | Future |
+| Phase 3 | ✅ Complete | AI extraction + tests | 2026-06-06 |
+| Phase 4 | ✅ Core Complete | 1 session | 2026-06-05 |
+| Phase 5 | ✅ Core Complete | 1 session | 2026-06-06 |
+| Phase 6 | ✅ Complete | tests + clarify flow | 2026-06-06 |
+| Phase 7 | ✅ Complete | Live Will Builder UI | 2026-06-06 |
+| Phase 8+ | 📋 Planned | - | Future |
 
 ---
 

@@ -2,17 +2,51 @@
 
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const router = useRouter();
-  const { user, token } = useAuthStore();
+  const { user, token, hydrateSession } = useAuthStore();
+  const [isChecking, setIsChecking] = useState(Boolean(token));
 
   useEffect(() => {
-    if (user && token) {
-      router.push('/dashboard');
-    }
-  }, [user, token, router]);
+    let isMounted = true;
+
+    const resolveSession = async () => {
+      if (!token) {
+        return;
+      }
+
+      if (!user) {
+        setIsChecking(true);
+        const hydratedUser = await hydrateSession();
+        if (!isMounted) {
+          return;
+        }
+
+        if (!hydratedUser) {
+          setIsChecking(false);
+          return;
+        }
+      }
+
+      router.replace('/dashboard');
+    };
+
+    void resolveSession();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user, token, hydrateSession, router]);
+
+  if (isChecking) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+        <p className="text-gray-600">Restoring your session...</p>
+      </main>
+    );
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-br from-blue-50 to-indigo-100">

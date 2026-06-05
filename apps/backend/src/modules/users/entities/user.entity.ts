@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Unique,
+  OneToMany,
+} from 'typeorm';
 import { Will } from '../../wills/entities/will.entity';
 
 @Entity('users')
@@ -29,6 +37,6 @@ export class User {
   updatedAt: Date;
 
   // Relations
-  @OneToMany(() => Will, (will) => will.user, { cascade: true })
+  @OneToMany(() => Will, will => will.user, { cascade: true })
   wills: Will[];
 }

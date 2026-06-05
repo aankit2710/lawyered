@@ -19,11 +19,12 @@ interface AuthStore {
   setUser: (user: User | null) => void;
   setToken: (token: string | null) => void;
   clearError: () => void;
+  hydrateSession: () => Promise<User | null>;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore = create<AuthStore>((set, get) => ({
   user: null,
   token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
   isLoading: false,
@@ -89,4 +90,41 @@ export const useAuthStore = create<AuthStore>((set) => ({
   setUser: (user) => set({ user }),
   setToken: (token) => set({ token }),
   clearError: () => set({ error: null }),
+  hydrateSession: async () => {
+    const storedToken =
+      get().token || (typeof window !== 'undefined' ? localStorage.getItem('token') : null);
+
+    if (!storedToken) {
+      return null;
+    }
+
+    try {
+      const response = await axios.get(`${API_URL}/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      });
+
+      const user = response.data;
+      set({
+        token: storedToken,
+        user,
+        error: null,
+      });
+
+      return user;
+    } catch {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+      }
+
+      set({
+        token: null,
+        user: null,
+        error: null,
+      });
+
+      return null;
+    }
+  },
 }));

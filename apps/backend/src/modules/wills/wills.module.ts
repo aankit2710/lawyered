@@ -11,9 +11,16 @@ import { Guardian } from './entities/guardian.entity';
 import { Witness } from './entities/witness.entity';
 import { ChatMessage } from './entities/chat-message.entity';
 import { WillSnapshot } from './entities/will-snapshot.entity';
+import { AiModule } from '../ai/ai.module';
+import { ChatService } from './chat.service';
+import { SnapshotService } from './snapshot.service';
+import { UpdateApplierService } from './update-applier.service';
+import { ValidationService } from './validation.service';
+import { ClarifyService } from './clarify.service';
 
 @Module({
   imports: [
+    AiModule,
     TypeOrmModule.forFeature([
       Will,
       Beneficiary,
@@ -26,8 +33,16 @@ import { WillSnapshot } from './entities/will-snapshot.entity';
       WillSnapshot,
     ]),
   ],
-  providers: [WillsService],
+  providers: [
+    WillsService,
+    SnapshotService,
+    UpdateApplierService,
+    ValidationService,
+    ChatService,
+    ClarifyService,
+  ],
+
   controllers: [WillsController],
-  exports: [WillsService],
+  exports: [WillsService, SnapshotService, ChatService],
 })
 export class WillsModule {}

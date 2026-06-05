@@ -18,14 +18,20 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:phase3": "jest --config jest.config.phase3.js",
+    "test:phase5": "jest --config jest.config.phase5.js",
+    "test:phase6": "jest --config jest.config.phase6.js",
+    "test:phases": "npm run test:phase3 && npm run test:phase5 && npm run test:phase6"
   },
   "dependencies": {
     "@nestjs/common": "^10.2.10",
+    "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.2.10",
     "@nestjs/jwt": "^11.0.1",
     "@nestjs/passport": "^10.0.3",
-    "@nestjs/typeorm": "^9.0.1",
+    "@nestjs/platform-express": "^10.2.10",
+    "@nestjs/typeorm": "^10.0.0",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",

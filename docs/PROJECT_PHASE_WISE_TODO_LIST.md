@@ -1,8 +1,8 @@
-# Lawyered Will Maker - Complete Phase-Wise TODO Task List
+﻿# Lawyered Will Maker - Complete Phase-Wise TODO Task List
 
 **Project**: AI-Assisted Will Maker using Next.js, NestJS, PostgreSQL, OpenAI GPT-4o-mini, Docker
-**Status**: Phase 0 Complete ✅ | Phase 1 Complete ✅ | Phase 2 Complete ✅ | Phase 3 In Progress 🚀
-**Last Updated**: 2026-06-05
+**Status**: Phase 0 Complete ✅ | Phase 1 Complete ✅ | Phase 2 Complete ✅ | Phase 3 Core Complete ✅ | Phase 4 Core Complete ✅ | Phase 5 Core Complete ✅ | Phase 6 Complete ✅ | Phase 7 Complete ✅
+**Last Updated**: 2026-06-06
 
 ---
 
@@ -58,8 +58,8 @@
 - [x] Create .env.example with all required variables
 
 ### Deliverable
-✅ Application boots successfully with `docker-compose up`
-✅ All services communicate (frontend → backend → database)
+âœ… Application boots successfully with `docker-compose up`
+âœ… All services communicate (frontend â†’ backend â†’ database)
 
 ---
 
@@ -117,10 +117,10 @@
 - [x] Add logout functionality
 
 ### Deliverable
-✅ User can register with email and password
-✅ User can login and receive JWT token
-✅ Protected endpoints reject unauthenticated requests
-✅ User can access GET /auth/me and see their profile
+âœ… User can register with email and password
+âœ… User can login and receive JWT token
+âœ… Protected endpoints reject unauthenticated requests
+âœ… User can access GET /auth/me and see their profile
 
 ---
 
@@ -144,12 +144,12 @@
 #### 2.2 - Testator Information
 - [x] Create `testators` table (id, will_id, name, age, address, sound_mind, dob)
 - [x] Create migration
-- [x] Add relationship: Will → Testator (1:1)
+- [x] Add relationship: Will â†’ Testator (1:1)
 
 #### 2.3 - Assets Management
 - [x] Create `assets` table (id, will_id, name, description, location, value, type)
 - [x] Create migration
-- [x] Add relationship: Will → Asset (1:many)
+- [x] Add relationship: Will â†’ Asset (1:many)
 - [x] Add index on will_id
 
 #### 2.4 - Beneficiaries & Allocations
@@ -157,14 +157,14 @@
 - [x] Create `asset_allocations` table (id, asset_id, beneficiary_id, percentage)
 - [x] Create migrations
 - [x] Add constraint: percentage sum per asset = 100%
-- [x] Add relationships: Asset → Beneficiary (many:many through allocation)
+- [x] Add relationships: Asset â†’ Beneficiary (many:many through allocation)
 
 #### 2.5 - Executors, Guardians & Witnesses
 - [x] Create `executors` table (id, will_id, name, contact, primary_backup)
 - [x] Create `guardians` table (id, will_id, name, relationship, contact, for_minors)
 - [x] Create `witnesses` table (id, will_id, name, age, contact, signature_date)
 - [x] Create migrations
-- [x] Add relationships: Will → Executor, Guardian, Witness (1:many)
+- [x] Add relationships: Will â†’ Executor, Guardian, Witness (1:many)
 
 #### 2.6 - Conversation & Snapshots
 - [x] Create `chat_messages` table (id, will_id, role, content, created_at)
@@ -186,10 +186,10 @@
 - [x] Create seed with edge cases (multiple beneficiaries, multiple assets)
 
 ### Deliverable
-✅ Database schema complete and documented
-✅ All migrations run successfully
-✅ Seed data loads without errors
-✅ ER diagram matches implementation
+âœ… Database schema complete and documented
+âœ… All migrations run successfully
+âœ… Seed data loads without errors
+âœ… ER diagram matches implementation
 
 ---
 
@@ -204,28 +204,27 @@
 ### Tasks
 
 #### 3.1 - OpenAI Integration
-- [ ] Install openai package
-- [ ] Create OpenAI configuration service
-- [ ] Set up API key management (.env)
-- [ ] Configure structured outputs mode
-- [ ] Implement error handling and retry logic
+- [x] Install openai package
+- [x] Set up API key management (.env)
+- [x] Configure structured outputs mode
+- [x] Implement error handling and retry logic
 
 #### 3.2 - Extraction Prompt Design
-- [ ] Design system prompt for will extraction
-- [ ] Define extraction rules and constraints
-- [ ] Create prompt templates
-- [ ] Test prompt with sample inputs
-- [ ] Document prompt versioning strategy
+- [x] Design system prompt for will extraction
+- [x] Define extraction rules and constraints
+- [x] Create prompt templates
+- [x] Test prompt with sample inputs
+- [x] Document prompt versioning strategy
 
 #### 3.3 - AI Service Implementation
-- [ ] Create `AiService` with method: `extractFromMessage(snapshot, message)`
-- [ ] Implement request builder (system prompt + snapshot + message)
-- [ ] Parse OpenAI structured output
-- [ ] Add logging and monitoring
-- [ ] Implement token counting for cost tracking
+- [x] Create `AiService` with method: `extractFromMessage(snapshot, message)`
+- [x] Implement request builder (system prompt + snapshot + message)
+- [x] Parse OpenAI structured output
+- [x] Add logging and monitoring
+- [x] Implement token counting for cost tracking
 
 #### 3.4 - Structured JSON Response Contract
-- [ ] Define response schema:
+- [x] Define response schema:
   ```json
   {
     "updates": {},
@@ -235,29 +234,29 @@
     "confidence": 0.95
   }
   ```
-- [ ] Validate response against schema
-- [ ] Handle schema mismatches
-- [ ] Document response contract
+- [x] Validate response against schema
+- [x] Handle schema mismatches
+- [x] Document response contract
 
 #### 3.5 - Chat Message Endpoint
-- [ ] Create POST /wills/:willId/chat endpoint
-- [ ] Implement request validation
-- [ ] Call AiService for extraction
-- [ ] Store chat message in database
-- [ ] Return AI response to frontend
-- [ ] Add authentication guard
+- [x] Create POST /wills/:willId/chat endpoint
+- [x] Implement request validation
+- [x] Call AiService for extraction
+- [x] Store chat message in database
+- [x] Return AI response to frontend
+- [x] Add authentication guard
 
 #### 3.6 - Testing & Validation
-- [ ] Unit test: simple asset extraction
-- [ ] Unit test: multiple beneficiary extraction
-- [ ] Unit test: ambiguity detection
-- [ ] Integration test: full chat flow
-- [ ] Cost tracking: estimate per message
+- [x] Unit test: simple asset extraction
+- [x] Unit test: multiple beneficiary extraction
+- [x] Unit test: ambiguity detection
+- [x] Integration test: full chat flow
+- [x] Cost tracking: estimate per message
 
 ### Deliverable
-✅ User sends "My house goes to my son" → AI extracts Asset + Beneficiary
-✅ API returns structured JSON with confidence score
-✅ Message stored in database for history
+âœ… User sends "My house goes to my son" â†’ AI extracts Asset + Beneficiary
+âœ… API returns structured JSON with confidence score
+âœ… Message stored in database for history
 
 ---
 
@@ -272,8 +271,8 @@
 ### Tasks
 
 #### 4.1 - Will Snapshot Definition
-- [ ] Create TypeScript interface for WillSnapshot
-- [ ] Define snapshot structure:
+- [x] Create TypeScript interface for WillSnapshot
+- [x] Define snapshot structure:
   ```json
   {
     "testator": {
@@ -290,33 +289,33 @@
     "witnesses": []
   }
   ```
-- [ ] Document snapshot fields
+- [x] Document snapshot fields
 - [ ] Create snapshot validation schema
 
 #### 4.2 - Snapshot Lifecycle
-- [ ] Create `SnapshotService`
-- [ ] Implement: `createInitialSnapshot(willId)`
-- [ ] Implement: `getLatestSnapshot(willId)`
-- [ ] Implement: `updateSnapshot(willId, updates)`
-- [ ] Implement: `persistSnapshot(willId, snapshot)`
+- [x] Create `SnapshotService`
+- [x] Implement: `createInitialSnapshot(willId)`
+- [x] Implement: `getLatestSnapshot(willId)`
+- [x] Implement: `updateSnapshot(willId, updates)`
+- [x] Implement: `persistSnapshot(willId, snapshot)`
 
 #### 4.3 - Snapshot Persistence
-- [ ] Store snapshot in will_snapshots table after each message
+- [x] Store snapshot in will_snapshots table after each message
 - [ ] Create migration for snapshot versioning
-- [ ] Implement snapshot history retrieval
-- [ ] Add timestamp tracking
+- [x] Implement snapshot history retrieval
+- [x] Add timestamp tracking
 
 #### 4.4 - Memory-Aware AI Calls
-- [ ] Modify AiService to receive only: snapshot + latest message
-- [ ] Remove full chat history from AI requests
-- [ ] Update prompt to reference snapshot data
+- [x] Modify AiService to receive only: snapshot + latest message
+- [x] Remove full chat history from AI requests
+- [x] Update prompt to reference snapshot data
 - [ ] Test with 10-message conversation
 - [ ] Verify token usage reduction
 
 #### 4.5 - Update Application Logic
-- [ ] Create `UpdateApplier` service
-- [ ] Parse AI updates and apply to snapshot
-- [ ] Handle partial updates (only changed fields)
+- [x] Create `UpdateApplier` service
+- [x] Parse AI updates and apply to snapshot
+- [x] Handle partial updates (only changed fields)
 - [ ] Validate updates against snapshot schema
 - [ ] Test merge logic with various scenarios
 
@@ -327,10 +326,10 @@
 - [ ] Create cost dashboard UI
 
 ### Deliverable
-✅ Conversation persists across 20+ messages without token explosion
-✅ AI remembers all previously collected information
-✅ Token usage remains predictable and low
-✅ Snapshot can be loaded to resume interrupted will
+âœ… Conversation persists across 20+ messages without token explosion
+âœ… AI remembers all previously collected information
+âœ… Token usage remains predictable and low
+âœ… Snapshot can be loaded to resume interrupted will
 
 ---
 
@@ -345,17 +344,17 @@
 ### Tasks
 
 #### 5.1 - Validation Rules Definition
-- [ ] Define rule: Executor exists and has name + contact
-- [ ] Define rule: At least 2 witnesses exist with dates
-- [ ] Define rule: Testator name, age, address provided
-- [ ] Define rule: Asset allocations = 100% per asset
-- [ ] Define rule: At least 1 asset exists
-- [ ] Define rule: Guardian exists if testator has minors
+- [x] Define rule: Executor exists and has name + contact
+- [x] Define rule: At least 2 witnesses exist with dates
+- [x] Define rule: Testator name, age, address provided
+- [x] Define rule: Asset allocations = 100% per asset
+- [x] Define rule: At least 1 asset exists
+- [x] Define rule: Guardian exists if testator has minors
 
 #### 5.2 - Rule Engine Implementation
-- [ ] Create `ValidationService`
-- [ ] Implement rule checker methods (one per rule)
-- [ ] Return structured validation result:
+- [x] Create `ValidationService`
+- [x] Implement rule checker methods (one per rule)
+- [x] Return structured validation result:
   ```json
   {
     "status": "INCOMPLETE",
@@ -366,34 +365,34 @@
   ```
 
 #### 5.3 - Validation Endpoint
-- [ ] Create GET /wills/:willId/validation
-- [ ] Call ValidationService
-- [ ] Return current state: COMPLETE | INCOMPLETE | INVALID | VALID_WITH_WARNINGS
-- [ ] Add authentication guard
+- [x] Create GET /wills/:willId/validation
+- [x] Call ValidationService
+- [x] Return current state: COMPLETE | INCOMPLETE | INVALID | VALID_WITH_WARNINGS
+- [x] Add authentication guard
 
 #### 5.4 - Missing Fields Detection
-- [ ] Track all required fields
-- [ ] Return list of missing fields in response
-- [ ] Calculate completion percentage
-- [ ] Prioritize missing critical fields
+- [x] Track all required fields
+- [x] Return list of missing fields in response
+- [x] Calculate completion percentage
+- [x] Prioritize missing critical fields
 
 #### 5.5 - Error vs. Warning Classification
-- [ ] Critical errors: executor, witnesses missing
-- [ ] Warnings: allocation recommendations, asset valuation
-- [ ] Document classification criteria
-- [ ] Test edge cases
+- [x] Critical errors: executor, witnesses missing
+- [x] Warnings: allocation recommendations, asset valuation
+- [x] Document classification criteria
+- [x] Test edge cases
 
 #### 5.6 - Frontend Integration
-- [ ] Display validation status in UI
-- [ ] Show missing fields list
-- [ ] Show progress bar (completion %)
-- [ ] Highlight critical errors
-- [ ] Display warnings in non-blocking way
+- [x] Display validation status in UI
+- [x] Show missing fields list
+- [x] Show progress bar (completion %)
+- [x] Highlight critical errors
+- [x] Display warnings in non-blocking way
 
 ### Deliverable
-✅ Validation endpoint returns: 60% complete, needs: executor, 1 witness, beneficiary contacts
-✅ Impossible to proceed without minimum required fields
-✅ Clear visual feedback in frontend
+âœ… Validation endpoint returns: 60% complete, needs: executor, 1 witness, beneficiary contacts
+âœ… Impossible to proceed without minimum required fields
+âœ… Clear visual feedback in frontend
 
 ---
 
@@ -408,48 +407,48 @@
 ### Tasks
 
 #### 6.1 - Ambiguity Detection
-- [ ] Update AI prompt to detect ambiguities
-- [ ] Example: "My son gets everything" → which son?
-- [ ] Modify response schema to include `ambiguities` array
-- [ ] Return list of detected ambiguities
+- [x] Update AI prompt to detect ambiguities
+- [x] Example: "My son gets everything" â†’ which son?
+- [x] Modify response schema to include `ambiguities` array
+- [x] Return list of detected ambiguities
 
 #### 6.2 - Confidence Scoring
-- [ ] Update AI response to include confidence (0-1)
-- [ ] Flag low-confidence extractions
-- [ ] Request clarification for confidence < 0.7
-- [ ] Log confidence scores for analysis
+- [x] Update AI response to include confidence (0-1)
+- [x] Flag low-confidence extractions
+- [x] Request clarification for confidence < 0.7
+- [x] Log confidence scores for analysis
 
 #### 6.3 - Next Question Generation
-- [ ] Update AI to generate contextual next question
-- [ ] Prioritize: ambiguities > missing critical info > optional fields
-- [ ] Prevent repeated questions
-- [ ] Store asked questions to avoid loops
+- [x] Update AI to generate contextual next question
+- [x] Prioritize: ambiguities > missing critical info > optional fields
+- [x] Prevent repeated questions
+- [x] Store asked questions to avoid loops
 
 #### 6.4 - Change of Mind Handling
-- [ ] Update AI response schema to support replacements
-- [ ] Example: "Actually make Amit the executor"
-- [ ] Implement replace logic in UpdateApplier
-- [ ] Update snapshot accordingly
+- [x] Update AI response schema to support replacements
+- [x] Example: "Actually make Amit the executor"
+- [x] Implement replace logic in UpdateApplier
+- [x] Update snapshot accordingly
 - [ ] Test change scenarios (executor, beneficiary, asset)
 
 #### 6.5 - Clarification Requests
-- [ ] Create POST /wills/:willId/clarify endpoint
-- [ ] Send clarification response
-- [ ] Re-extract with updated understanding
-- [ ] Update snapshot
-- [ ] Reduce ambiguities list
+- [x] Create POST /wills/:willId/clarify endpoint
+- [x] Send clarification response
+- [x] Re-extract with updated understanding
+- [x] Update snapshot
+- [x] Reduce ambiguities list
 
 #### 6.6 - Testing Complex Scenarios
-- [ ] Test: "Split my assets between X and Y"
-- [ ] Test: "My children inherit equally" (with multiple children)
-- [ ] Test: "Make my wife executor, but if she refuses, my brother"
-- [ ] Test: Contradictory statements handling
+- [x] Test: "Split my assets between X and Y"
+- [x] Test: "My children inherit equally" (with multiple children)
+- [x] Test: "Make my wife executor, but if she refuses, my brother"
+- [x] Test: Contradictory statements handling
 
 ### Deliverable
-✅ AI detects and flags ambiguities
-✅ AI suggests clarification questions
-✅ User can correct information
-✅ Snapshot updates with corrections
+âœ… AI detects and flags ambiguities
+âœ… AI suggests clarification questions
+âœ… User can correct information
+âœ… Snapshot updates with corrections
 
 ---
 
@@ -464,68 +463,69 @@
 ### Tasks
 
 #### 7.1 - Layout & Components
-- [ ] Create two-panel layout (Chat | Will Preview)
-- [ ] Build ChatPanel component
-- [ ] Build WillPreview component
-- [ ] Create responsive design (mobile-friendly)
-- [ ] Add dark/light theme support
+- [x] Create two-panel layout (Chat | Will Preview)
+- [x] Build ChatPanel component
+- [x] Build WillPreview component
+- [x] Create responsive design (mobile-friendly)
+- [x] Add dark/light theme support
+
 
 #### 7.2 - Chat Panel
-- [ ] Implement message display
-- [ ] Create message input with send button
-- [ ] Show typing indicator
-- [ ] Display error messages
-- [ ] Add timestamp to messages
-- [ ] Implement auto-scroll to latest message
+- [x] Implement message display
+- [x] Create message input with send button
+- [x] Show typing indicator
+- [x] Display error messages
+- [x] Add timestamp to messages
+- [x] Implement auto-scroll to latest message
 
 #### 7.3 - Will Preview Panel
-- [ ] Create TestatorInfo section display
-- [ ] Create Assets section display
-- [ ] Create Beneficiaries section display
-- [ ] Create Executors section display
-- [ ] Create Witnesses section display
-- [ ] Create Guardian section display
-- [ ] Format as mini will document
+- [x] Create TestatorInfo section display
+- [x] Create Assets section display
+- [x] Create Beneficiaries section display
+- [x] Create Executors section display
+- [x] Create Witnesses section display
+- [x] Create Guardian section display
+- [x] Format as mini will document
 
 #### 7.4 - Progress Tracking
-- [ ] Display completion percentage
-- [ ] Show progress bar
-- [ ] Highlight missing critical sections
-- [ ] Display validation status badge
-- [ ] Show field-by-field status
+- [x] Display completion percentage
+- [x] Show progress bar
+- [x] Highlight missing critical sections
+- [x] Display validation status badge
+- [x] Show field-by-field status
 
 #### 7.5 - Warnings & Validation Display
-- [ ] Show validation errors prominently
-- [ ] Display warnings in yellow/orange
-- [ ] Create collapsible details section
-- [ ] Suggest next steps based on validation
+- [x] Show validation errors prominently
+- [x] Display warnings in yellow/orange
+- [x] Create collapsible details section
+- [x] Suggest next steps based on validation
 
 #### 7.6 - State Management
-- [ ] Integrate React Query for server state
-- [ ] Create custom hooks: useWill, useChat, useValidation
-- [ ] Implement optimistic updates
-- [ ] Handle loading/error states
-- [ ] Implement refetch strategies
+- [x] Integrate React Query for server state
+- [x] Create custom hooks: useWill, useChat, useValidation
+- [x] Implement optimistic updates
+- [x] Handle loading/error states
+- [x] Implement refetch strategies
 
 #### 7.7 - Styling with Tailwind CSS
-- [ ] Set up Tailwind configuration
-- [ ] Create consistent color scheme
-- [ ] Build reusable component library
-- [ ] Ensure accessibility (ARIA labels, keyboard nav)
-- [ ] Test on multiple screen sizes
+- [x] Set up Tailwind configuration
+- [x] Create consistent color scheme
+- [x] Build reusable component library
+- [x] Ensure accessibility (ARIA labels, keyboard nav)
+- [x] Test on multiple screen sizes
 
 #### 7.8 - Interactive Features
-- [ ] Add edit button to sections
-- [ ] Implement inline editing
-- [ ] Create edit confirmation modal
-- [ ] Add undo/redo functionality
-- [ ] Implement local draft saving
+- [x] Add edit button to sections
+- [x] Implement inline editing
+- [x] Create edit confirmation modal
+- [x] Add undo/redo functionality
+- [x] Implement local draft saving
 
 ### Deliverable
-✅ Two-panel interface with chat and live will preview
-✅ Real-time updates as user enters information
-✅ Clear progress tracking and validation feedback
-✅ Responsive and accessible UI
+âœ… Two-panel interface with chat and live will preview
+âœ… Real-time updates as user enters information
+âœ… Clear progress tracking and validation feedback
+âœ… Responsive and accessible UI
 
 ---
 
@@ -598,10 +598,10 @@
 - [ ] Test download functionality
 
 ### Deliverable
-✅ User can download complete will as PDF
-✅ PDF includes all required legal sections
-✅ Professional formatting and layout
-✅ Ready for printing and signing
+âœ… User can download complete will as PDF
+âœ… PDF includes all required legal sections
+âœ… Professional formatting and layout
+âœ… Ready for printing and signing
 
 ---
 
@@ -675,10 +675,10 @@
 - [ ] Test error handling
 
 ### Deliverable
-✅ Reviewer can login immediately (demo@lawyered.com)
-✅ Sample wills demonstrate all features
-✅ PDF generation works with sample data
-✅ Full user journey visible in 5 minutes
+âœ… Reviewer can login immediately (demo@lawyered.com)
+âœ… Sample wills demonstrate all features
+âœ… PDF generation works with sample data
+âœ… Full user journey visible in 5 minutes
 
 ---
 
@@ -763,10 +763,10 @@
 - [ ] Security audit
 
 ### Deliverable
-✅ Production-ready application
-✅ Cost predictable and documented
-✅ Monitoring and alerting in place
-✅ Deployment automated and repeatable
+âœ… Production-ready application
+âœ… Cost predictable and documented
+âœ… Monitoring and alerting in place
+âœ… Deployment automated and repeatable
 
 ---
 
@@ -775,21 +775,21 @@
 ### Critical Path
 ```
 Phase 0 (Setup)
-    ↓
+    â†“
 Phase 1 (Auth) + Phase 2 (Database) [parallel]
-    ↓
+    â†“
 Phase 3 (AI Core)
-    ↓
+    â†“
 Phase 4 (Memory) + Phase 5 (Validation) [parallel]
-    ↓
+    â†“
 Phase 6 (Advanced AI)
-    ↓
+    â†“
 Phase 7 (UI)
-    ↓
+    â†“
 Phase 8 (PDF)
-    ↓
+    â†“
 Phase 9 (Demo Data)
-    ↓
+    â†“
 Phase 10 (Production)
 ```
 
@@ -810,12 +810,12 @@ Phase 10 (Production)
 
 ## Key Architecture Principles
 
-✅ **Memory Efficiency**: Send snapshot + latest message only (NOT full history)
-✅ **Cost Conscious**: Use GPT-4o-mini, track tokens, optimize prompts
-✅ **Rule-Based Validation**: Never trust AI for legality checks
-✅ **Deterministic Extraction**: Structured outputs, schema validation
-✅ **User-Centric**: Save progress, handle corrections, clear feedback
-✅ **Production Ready**: Monitoring, error handling, security, scalability
+âœ… **Memory Efficiency**: Send snapshot + latest message only (NOT full history)
+âœ… **Cost Conscious**: Use GPT-4o-mini, track tokens, optimize prompts
+âœ… **Rule-Based Validation**: Never trust AI for legality checks
+âœ… **Deterministic Extraction**: Structured outputs, schema validation
+âœ… **User-Centric**: Save progress, handle corrections, clear feedback
+âœ… **Production Ready**: Monitoring, error handling, security, scalability
 
 ---
 
@@ -827,3 +827,4 @@ Phase 10 (Production)
 - [ ] System remains low-cost even with scale
 - [ ] Reviewers can immediately test with demo data
 - [ ] Code is production-ready and well-documented
+

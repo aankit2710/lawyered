@@ -1,6 +1,6 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DeepPartial } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 
@@ -8,10 +8,15 @@ import { User } from './entities/user.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private usersRepository: Repository<User>
   ) {}
 
-  async create(email: string, password: string, firstName?: string, lastName?: string): Promise<User> {
+  async create(
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string
+  ): Promise<User> {
     // Check if user already exists
     const existingUser = await this.usersRepository.findOne({
       where: { email },
@@ -30,7 +35,7 @@ export class UsersService {
       password: hashedPassword,
       firstName: firstName || null,
       lastName: lastName || null,
-    });
+    } as DeepPartial<User>);
 
     return this.usersRepository.save(user);
   }
@@ -61,7 +66,7 @@ export class UsersService {
 
   async updateProfile(
     id: string,
-    updates: { firstName?: string; lastName?: string },
+    updates: { firstName?: string; lastName?: string }
   ): Promise<User> {
     const user = await this.findById(id);
     if (!user) {

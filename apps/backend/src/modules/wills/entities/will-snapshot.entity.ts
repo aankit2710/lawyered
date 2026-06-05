@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Index,
+} from 'typeorm';
 import { Will } from './will.entity';
 
 @Entity('will_snapshots')
@@ -7,7 +15,7 @@ export class WillSnapshot {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Will, (will) => will.snapshots, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Will, will => will.snapshots, { onDelete: 'CASCADE' })
   will: Will;
 
   @Column({ type: 'jsonb' })

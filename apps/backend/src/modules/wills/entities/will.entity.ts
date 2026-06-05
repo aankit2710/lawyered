@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Index,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Beneficiary } from './beneficiary.entity';
 import { Asset } from './asset.entity';
@@ -14,8 +23,11 @@ export class Will {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, (user) => user.wills, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, user => user.wills, { onDelete: 'CASCADE' })
   user: User;
+
+  @Column({ type: 'varchar', length: 255, default: 'Untitled Will' })
+  title: string;
 
   @Column({ type: 'varchar', length: 50, default: 'DRAFT' })
   status: string; // DRAFT, INCOMPLETE, COMPLETE, FINALIZED, EXECUTED
@@ -52,24 +64,24 @@ export class Will {
   updated_at: Date;
 
   // Relations
-  @OneToMany(() => Beneficiary, (beneficiary) => beneficiary.will, { cascade: true })
+  @OneToMany(() => Beneficiary, beneficiary => beneficiary.will, { cascade: true })
   beneficiaries: Beneficiary[];
 
-  @OneToMany(() => Asset, (asset) => asset.will, { cascade: true })
+  @OneToMany(() => Asset, asset => asset.will, { cascade: true })
   assets: Asset[];
 
-  @OneToMany(() => Executor, (executor) => executor.will, { cascade: true })
+  @OneToMany(() => Executor, executor => executor.will, { cascade: true })
   executors: Executor[];
 
-  @OneToMany(() => Guardian, (guardian) => guardian.will, { cascade: true })
+  @OneToMany(() => Guardian, guardian => guardian.will, { cascade: true })
   guardians: Guardian[];
 
-  @OneToMany(() => Witness, (witness) => witness.will, { cascade: true })
+  @OneToMany(() => Witness, witness => witness.will, { cascade: true })
   witnesses: Witness[];
 
-  @OneToMany(() => ChatMessage, (message) => message.will, { cascade: true })
+  @OneToMany(() => ChatMessage, message => message.will, { cascade: true })
   chat_messages: ChatMessage[];
 
-  @OneToMany(() => WillSnapshot, (snapshot) => snapshot.will, { cascade: true })
+  @OneToMany(() => WillSnapshot, snapshot => snapshot.will, { cascade: true })
   snapshots: WillSnapshot[];
 }

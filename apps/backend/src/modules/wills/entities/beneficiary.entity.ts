@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  Index,
+} from 'typeorm';
 import { Will } from './will.entity';
 import { AssetAllocation } from './asset-allocation.entity';
 
@@ -8,7 +16,7 @@ export class Beneficiary {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Will, (will) => will.beneficiaries, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Will, will => will.beneficiaries, { onDelete: 'CASCADE' })
   will: Will;
 
   @Column({ type: 'varchar', length: 255 })
@@ -27,6 +35,6 @@ export class Beneficiary {
   created_at: Date;
 
   // Relations
-  @OneToMany(() => AssetAllocation, (allocation) => allocation.beneficiary, { cascade: true })
+  @OneToMany(() => AssetAllocation, allocation => allocation.beneficiary, { cascade: true })
   asset_allocations: AssetAllocation[];
 }

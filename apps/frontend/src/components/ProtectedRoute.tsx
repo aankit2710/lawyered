@@ -10,16 +10,47 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const router = useRouter();
-  const { token, user } = useAuthStore();
+  const { token, user, hydrateSession } = useAuthStore();
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    if (!token) {
-      router.push('/auth/login');
-    } else {
+    let isMounted = true;
+
+    const checkSession = async () => {
+      if (!token) {
+        router.replace('/auth/login');
+        if (isMounted) {
+          setIsChecking(false);
+        }
+        return;
+      }
+
+      if (user) {
+        if (isMounted) {
+          setIsChecking(false);
+        }
+        return;
+      }
+
+      const hydratedUser = await hydrateSession();
+      if (!isMounted) {
+        return;
+      }
+
+      if (!hydratedUser) {
+        router.replace('/auth/login');
+        return;
+      }
+
       setIsChecking(false);
-    }
-  }, [token, router]);
+    };
+
+    void checkSession();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [token, user, hydrateSession, router]);
 
   if (isChecking) {
     return (
