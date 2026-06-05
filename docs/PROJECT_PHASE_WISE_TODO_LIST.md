@@ -1,7 +1,7 @@
 # Lawyered Will Maker - Complete Phase-Wise TODO Task List
 
 **Project**: AI-Assisted Will Maker using Next.js, NestJS, PostgreSQL, OpenAI GPT-4o-mini, Docker
-**Status**: Phase 0 Complete ✅ | Phase 1 Complete ✅ | Phase 2 In Progress 🚀
+**Status**: Phase 0 Complete ✅ | Phase 1 Complete ✅ | Phase 2 Complete ✅ | Phase 3 In Progress 🚀
 **Last Updated**: 2026-06-05
 
 ---
@@ -135,55 +135,55 @@
 ### Tasks
 
 #### 2.1 - Core Will Tables
-- [ ] Create `wills` table (id, user_id, title, status, created_at, updated_at)
-- [ ] Create `users` table (id, email, password, created_at, updated_at)
-- [ ] Create migration for core tables
-- [ ] Add foreign key constraints
-- [ ] Add indexes on user_id, created_at
+- [x] Create `wills` table (id, user_id, title, status, created_at, updated_at)
+- [x] Create `users` table (id, email, password, created_at, updated_at)
+- [x] Create migration for core tables
+- [x] Add foreign key constraints
+- [x] Add indexes on user_id, created_at
 
 #### 2.2 - Testator Information
-- [ ] Create `testators` table (id, will_id, name, age, address, sound_mind, dob)
-- [ ] Create migration
-- [ ] Add relationship: Will → Testator (1:1)
+- [x] Create `testators` table (id, will_id, name, age, address, sound_mind, dob)
+- [x] Create migration
+- [x] Add relationship: Will → Testator (1:1)
 
 #### 2.3 - Assets Management
-- [ ] Create `assets` table (id, will_id, name, description, location, value, type)
-- [ ] Create migration
-- [ ] Add relationship: Will → Asset (1:many)
-- [ ] Add index on will_id
+- [x] Create `assets` table (id, will_id, name, description, location, value, type)
+- [x] Create migration
+- [x] Add relationship: Will → Asset (1:many)
+- [x] Add index on will_id
 
 #### 2.4 - Beneficiaries & Allocations
-- [ ] Create `beneficiaries` table (id, will_id, name, relationship, age, contact)
-- [ ] Create `asset_allocations` table (id, asset_id, beneficiary_id, percentage)
-- [ ] Create migrations
-- [ ] Add constraint: percentage sum per asset = 100%
-- [ ] Add relationships: Asset → Beneficiary (many:many through allocation)
+- [x] Create `beneficiaries` table (id, will_id, name, relationship, age, contact)
+- [x] Create `asset_allocations` table (id, asset_id, beneficiary_id, percentage)
+- [x] Create migrations
+- [x] Add constraint: percentage sum per asset = 100%
+- [x] Add relationships: Asset → Beneficiary (many:many through allocation)
 
 #### 2.5 - Executors, Guardians & Witnesses
-- [ ] Create `executors` table (id, will_id, name, contact, primary_backup)
-- [ ] Create `guardians` table (id, will_id, name, relationship, contact, for_minors)
-- [ ] Create `witnesses` table (id, will_id, name, age, contact, signature_date)
-- [ ] Create migrations
-- [ ] Add relationships: Will → Executor, Guardian, Witness (1:many)
+- [x] Create `executors` table (id, will_id, name, contact, primary_backup)
+- [x] Create `guardians` table (id, will_id, name, relationship, contact, for_minors)
+- [x] Create `witnesses` table (id, will_id, name, age, contact, signature_date)
+- [x] Create migrations
+- [x] Add relationships: Will → Executor, Guardian, Witness (1:many)
 
 #### 2.6 - Conversation & Snapshots
-- [ ] Create `chat_messages` table (id, will_id, role, content, created_at)
-- [ ] Create `will_snapshots` table (id, will_id, snapshot_data (JSON), created_at, updated_at)
-- [ ] Create migrations
-- [ ] Add index on will_id for quick lookups
+- [x] Create `chat_messages` table (id, will_id, role, content, created_at)
+- [x] Create `will_snapshots` table (id, will_id, snapshot_data (JSON), created_at, updated_at)
+- [x] Create migrations
+- [x] Add index on will_id for quick lookups
 
 #### 2.7 - Indexes & Constraints
-- [ ] Add composite index: (user_id, created_at) on wills
-- [ ] Add check constraint: asset allocation percentage = 100%
-- [ ] Add check constraint: age > 0
-- [ ] Add unique index: user_id + will_id if needed
-- [ ] Performance test on 10,000 records
+- [x] Add composite index: (user_id, created_at) on wills
+- [x] Add check constraint: asset allocation percentage = 100%
+- [x] Add check constraint: age > 0
+- [x] Add unique index: user_id + will_id if needed
+- [x] Performance test on 10,000 records
 
 #### 2.8 - Seed Data
-- [ ] Create seed file with test user
-- [ ] Create seed with sample will (partial)
-- [ ] Create seed with complete sample will
-- [ ] Create seed with edge cases (multiple beneficiaries, multiple assets)
+- [x] Create seed file with test user
+- [x] Create seed with sample will (partial)
+- [x] Create seed with complete sample will
+- [x] Create seed with edge cases (multiple beneficiaries, multiple assets)
 
 ### Deliverable
 ✅ Database schema complete and documented

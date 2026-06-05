@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, OneToMany } from 'typeorm';
+import { Will } from '../../wills/entities/will.entity';
 
 @Entity('users')
 @Unique(['email'])
@@ -26,4 +27,8 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  // Relations
+  @OneToMany(() => Will, (will) => will.user, { cascade: true })
+  wills: Will[];
 }
