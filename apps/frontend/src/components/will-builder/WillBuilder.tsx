@@ -20,7 +20,9 @@ import { EditPromptModal } from './EditPromptModal';
 import { ProgressTracker } from './ProgressTracker';
 import { ThemeToggle } from './ThemeToggle';
 import { ValidationPanel } from './ValidationPanel';
+import { PdfExportPanel } from './PdfExportPanel';
 import { WillPreview } from './WillPreview';
+import { formatApiError } from '@/lib/errors';
 
 export function WillBuilder() {
   const queryClient = useQueryClient();
@@ -34,7 +36,12 @@ export function WillBuilder() {
   const [historyIndex, setHistoryIndex] = useState<number | null>(null);
   const [previewSnapshot, setPreviewSnapshot] = useState<SnapshotState | null>(null);
 
-  const { data: wills = [], isLoading: isLoadingWills } = useWills();
+  const {
+    data: wills = [],
+    isLoading: isLoadingWills,
+    isError: willsLoadFailed,
+    error: willsLoadError,
+  } = useWills();
   const { data: willDetail } = useWillDetail(activeWillId);
   const { data: snapshot } = useSnapshot(activeWillId);
   const { data: validation, isLoading: isLoadingValidation } = useValidation(activeWillId);
@@ -188,7 +195,7 @@ export function WillBuilder() {
       >
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="text-white">
-            <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">Phase 7</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">Will Builder</p>
             <h2 className="mt-1 text-2xl font-semibold">Live Will Builder</h2>
             <p className="mt-1 text-sm text-slate-300">
               Chat on the left, live will preview on the right.
@@ -202,15 +209,16 @@ export function WillBuilder() {
               disabled={snapshotHistory.length < 2}
               className="rounded-full bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-700 disabled:opacity-40"
             >
-              Undo
+              Preview undo
             </button>
             <button
               type="button"
               onClick={handleRedo}
               disabled={historyIndex === null}
+              title="Preview-only — does not revert server state"
               className="rounded-full bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-700 disabled:opacity-40"
             >
-              Redo
+              Preview redo
             </button>
             <button
               type="button"
@@ -225,6 +233,12 @@ export function WillBuilder() {
       </div>
 
       <div className="space-y-4 p-4 lg:p-6">
+        {willsLoadFailed ? (
+          <div className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+            Failed to load wills: {formatApiError(willsLoadError, 'Unknown error')}
+          </div>
+        ) : null}
+
         <div className="flex flex-wrap items-center gap-3">
           <label htmlFor="will-select" className={clsx('text-sm font-medium', theme === 'dark' ? 'text-slate-300' : 'text-slate-600')}>
             Active will:
@@ -285,6 +299,12 @@ export function WillBuilder() {
           />
           <ValidationPanel validation={validation} isLoading={isLoadingValidation} />
         </div>
+
+        <PdfExportPanel
+          willId={activeWillId}
+          willTitle={activeWill?.title}
+          canProceed={validation?.canProceed}
+        />
       </div>
 
       <EditPromptModal

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
+import { formatApiError } from '@/lib/errors';
 
 interface User {
   id: string;
@@ -48,9 +49,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         user,
         isLoading: false,
       });
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Registration failed';
-      set({ error: errorMessage, isLoading: false });
+    } catch (error: unknown) {
+      set({ error: formatApiError(error, 'Registration failed'), isLoading: false });
       throw error;
     }
   },
@@ -71,9 +71,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         user,
         isLoading: false,
       });
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Login failed';
-      set({ error: errorMessage, isLoading: false });
+    } catch (error: unknown) {
+      set({ error: formatApiError(error, 'Login failed'), isLoading: false });
       throw error;
     }
   },

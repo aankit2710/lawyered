@@ -1,5 +1,6 @@
 import { Injectable, BadRequestException, Logger, NotFoundException } from '@nestjs/common';
 import { AiService } from '../ai/ai.service';
+import { AiMetricsService } from '../metrics/ai-metrics.service';
 import { ClarifyRequestDto } from './dto/clarify-request.dto';
 import { ExtractionResult } from './memory/will-snapshot-state';
 import { SnapshotService } from './snapshot.service';
@@ -16,7 +17,8 @@ export class ClarifyService {
     private readonly willsService: WillsService,
     private readonly aiService: AiService,
     private readonly snapshotService: SnapshotService,
-    private readonly updateApplier: UpdateApplierService
+    private readonly updateApplier: UpdateApplierService,
+    private readonly aiMetrics: AiMetricsService,
   ) {}
 
   async processClarification(userId: string, willId: string, dto: ClarifyRequestDto) {
@@ -35,6 +37,7 @@ export class ClarifyService {
     await this.willsService.saveChatMessage(willId, 'user', clarification);
 
     const extraction = await this.aiService.extractFromMessage(snapshot, clarification);
+    this.aiMetrics.recordExtraction(extraction.usage ? 'openai' : 'fallback', extraction.usage);
     const askedQuestions = Array.isArray(snapshot.askedQuestions) ? snapshot.askedQuestions : [];
 
     const shouldGate =

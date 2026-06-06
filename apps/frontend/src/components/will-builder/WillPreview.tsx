@@ -100,7 +100,7 @@ export function WillPreview({ snapshot, title, onEditSection }: Props) {
               theme === 'dark' ? 'text-slate-500' : 'text-slate-400',
             )}
           >
-            Signature and witness sections will appear in the exported PDF (Phase 8).
+            Signature and witness sections appear in the exported PDF.
           </footer>
         </article>
       </div>

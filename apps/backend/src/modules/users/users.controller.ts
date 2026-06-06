@@ -4,6 +4,7 @@ import { PublicUser, sanitizeUser } from './user.mapper';
 import { User } from './entities/user.entity';
 import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
 import { CurrentUser } from '@/common/decorators/current-user.decorator';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Controller('users')
 export class UsersController {
@@ -20,7 +21,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   async updateProfile(
     @CurrentUser() user: User,
-    @Body() updates: { firstName?: string; lastName?: string }
+    @Body() updates: UpdateProfileDto,
   ): Promise<PublicUser> {
     const updated = await this.usersService.updateProfile(user.id, updates);
     return sanitizeUser(updated);

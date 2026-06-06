@@ -16,6 +16,7 @@ describe('ChatService (Phase 3 integration)', () => {
   let aiService: any;
   let snapshotService: any;
   let updateApplier: any;
+  let aiMetrics: any;
   let chatService: ChatService;
 
   const baseSnapshot = (): WillSnapshotState => ({
@@ -57,7 +58,17 @@ describe('ChatService (Phase 3 integration)', () => {
       extractFromMessage: jest.fn(),
     };
 
-    chatService = new ChatService(willsService, aiService, snapshotService, updateApplier);
+    aiMetrics = {
+      recordExtraction: jest.fn(),
+    };
+
+    chatService = new ChatService(
+      willsService,
+      aiService,
+      snapshotService,
+      updateApplier,
+      aiMetrics,
+    );
   });
 
   it('runs full chat flow: save messages, apply extraction, persist snapshot', async () => {

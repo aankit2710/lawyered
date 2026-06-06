@@ -17,6 +17,7 @@ import { SnapshotService } from './snapshot.service';
 import { UpdateApplierService } from './update-applier.service';
 import { ValidationService } from './validation.service';
 import { ClarifyService } from './clarify.service';
+import { PdfService } from './pdf/pdf.service';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ClarifyService } from './clarify.service';
     ValidationService,
     ChatService,
     ClarifyService,
+    PdfService,
   ],
 
   controllers: [WillsController],

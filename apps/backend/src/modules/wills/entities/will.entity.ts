@@ -19,6 +19,7 @@ import { WillSnapshot } from './will-snapshot.entity';
 
 @Entity('wills')
 @Index('idx_wills_user_id', ['user'])
+@Index('idx_wills_user_created', ['user', 'created_at'])
 export class Will {
   @PrimaryGeneratedColumn('uuid')
   id: string;

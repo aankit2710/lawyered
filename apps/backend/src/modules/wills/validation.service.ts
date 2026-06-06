@@ -37,7 +37,7 @@ export class ValidationService {
     const snapshot = await this.snapshotService.loadSnapshot(willId);
     const result = this.evaluateSnapshot(snapshot);
 
-    await this.willsService.updateWill(willId, {
+    await this.willsService.syncValidationFields(willId, {
       completion_percentage: result.completeness,
       status: result.status,
     });

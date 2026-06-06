@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from '../../common/strategies/jwt.strategy';
 import { UsersModule } from '../users/users.module';
+import { getJwtSecret } from '../../common/config/app-config';
 
 const jwtSignOptions: SignOptions = {
   expiresIn: (process.env.JWT_EXPIRATION ?? '24h') as SignOptions['expiresIn'],
@@ -15,7 +16,7 @@ const jwtSignOptions: SignOptions = {
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'dev_secret_key_change_in_production',
+      secret: getJwtSecret(),
       signOptions: jwtSignOptions,
     }),
     UsersModule,

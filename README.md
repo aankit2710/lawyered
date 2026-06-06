@@ -1,334 +1,299 @@
 # Lawyered Will Maker
 
-AI-assisted Will Maker using Next.js, NestJS, PostgreSQL, and GPT-4o-mini
+AI-assisted will builder. Chat with the app to describe your wishes; it extracts structured data, validates completeness, and exports a PDF.
 
-## Tech Stack
+**Stack:** Next.js · NestJS · PostgreSQL · OpenAI GPT-4o-mini · Docker
 
-- **Frontend**: Next.js 14 + React 18 + TypeScript + Tailwind CSS
-- **Backend**: NestJS + PostgreSQL + TypeORM
-- **AI**: OpenAI GPT-4o-mini
-- **Infrastructure**: Docker + Docker Compose
+---
 
-## Project Structure
+## What you need
 
-```
-lawyered-will-maker/
-├── apps/
-│   ├── backend/          # NestJS Backend API
-│   ├── frontend/         # Next.js Frontend
-│   └── shared/           # Shared types and utilities
-├── docs/                 # Documentation
-├── docker-compose.yml    # Docker Compose configuration
-├── Dockerfile.backend    # Backend Docker image
-├── Dockerfile.frontend   # Frontend Docker image
-├── package.json          # Root package with workspaces
-└── tsconfig.json         # Root TypeScript configuration
-```
+| Tool | Version |
+|------|---------|
+| Node.js | 20+ (local dev) |
+| Docker + Docker Compose | v2+ (recommended) |
+| OpenAI API key | Required for AI chat ([get one here](https://platform.openai.com/api-keys)) |
 
-## Quick Start
+---
 
-### Prerequisites
+## Quick start (Docker — recommended)
 
-- Node.js 18+ (if running locally)
-- Docker and Docker Compose (for containerized setup)
-- npm or yarn
-
-### Option 1: Docker (Recommended - One Command)
+### 1. Clone and configure
 
 ```bash
-# Clone and navigate to project
-cd lawyered-will-maker
-
-# Start all services with docker-compose
-docker-compose up -d
-
-# Check logs
-docker-compose logs -f
-
-# Access the application
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:3001/api
-# Database: localhost:5432
-```
-
-### Option 2: Local Development
-
-```bash
-# Install dependencies
-npm install
-
-# Create .env file from example
+cd "lowyer test"          # your project folder
 cp .env.example .env
+```
 
-# Start PostgreSQL (requires Docker)
-docker run --name postgres -e POSTGRES_PASSWORD=postgres_dev_password -p 5432:5432 -d postgres:16-alpine
+Edit `.env` and set at minimum:
 
-# Run migrations and seed data
-npm run db:migrate
+```env
+OPENAI_API_KEY=sk-your-key-here
+JWT_SECRET=change-this-to-a-long-random-string
+```
 
-# Start development servers in separate terminals
+### 2. Start everything
+
+```bash
+docker compose up -d --build
+```
+
+Wait ~30 seconds for Postgres, migrations, and the API to come up.
+
+| Service | URL |
+|---------|-----|
+| **App (frontend)** | http://localhost:3000 |
+| **API** | http://localhost:3001/api |
+| **Health check** | http://localhost:3001/api/ready |
+
+### 3. Load demo data (optional)
+
+```bash
+docker compose exec backend node dist/database/seed.js
+```
+
+Or seed on first deploy with production compose:
+
+```bash
+npm run docker:prod:seed
+```
+
+### 4. Open the app
+
+1. Go to **http://localhost:3000**
+2. Log in with the demo account:
+
+   | Email | Password |
+   |-------|----------|
+   | `demo@lawyered.com` | `Demo@Lawyered1` |
+
+   Or click **Register** to create your own account.
+
+### 5. Use the Will Builder
+
+1. Open the **Dashboard** after login.
+2. Select a will from the dropdown (demo account has 5 sample wills) or click **Start Will** / **New Will**.
+3. **Chat** on the left — describe assets, beneficiaries, executor, etc.
+4. Watch the **live preview** update on the right.
+5. Check **Progress** and **Validation** panels for missing items.
+6. When validation passes, use **PDF Export** to download or preview your will.
+
+> **Tip:** Try the demo will **"Ambiguity Example Will"** to see how the AI asks clarifying questions.
+
+---
+
+## Local development (without full Docker stack)
+
+Use this if you want hot reload while editing code.
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Environment
+
+```bash
+cp .env.example .env
+```
+
+Ensure these match local Postgres:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres_dev_password
+DB_NAME=lawyered
+OPENAI_API_KEY=sk-your-key-here
+JWT_SECRET=dev-secret-change-me
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+TYPEORM_SYNCHRONIZE=true
+```
+
+### 3. Start PostgreSQL
+
+```bash
+docker run --name lawyered-postgres \
+  -e POSTGRES_PASSWORD=postgres_dev_password \
+  -e POSTGRES_DB=lawyered \
+  -p 5432:5432 \
+  -d postgres:16-alpine
+```
+
+### 4. Seed demo data
+
+```bash
+npm run db:seed
+```
+
+### 5. Run backend + frontend
+
+**Option A — one command (from project root):**
+
+```bash
+npm run dev
+```
+
+**Option B — two terminals:**
+
+```bash
+# Terminal 1 — API (port 3001)
 npm run dev:backend
+
+# Terminal 2 — UI (port 3000)
 npm run dev:frontend
 ```
 
-## Environment Variables
+### 6. Open http://localhost:3000
 
-See `.env.example` for all required environment variables:
+Same login and Will Builder flow as above.
 
-```env
+---
+
+## Production deployment
+
+```bash
+cp .env.example .env
+```
+
+Set production values:
+
+| Variable | Example |
+|----------|---------|
+| `JWT_SECRET` | Strong random string (32+ chars) |
+| `DB_PASSWORD` | Strong database password |
+| `OPENAI_API_KEY` | Your OpenAI key |
+| `CORS_ORIGINS` | `https://your-frontend.com` |
+| `NEXT_PUBLIC_API_URL` | `https://api.your-domain.com/api` |
+
+Deploy:
+
+```bash
+npm run docker:prod
+```
+
+Full guide: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+
+---
+
+## Common commands
+
+```bash
+# Docker
+docker compose up -d              # Start (dev-style compose)
+docker compose down               # Stop
+docker compose logs -f backend    # View API logs
+npm run docker:prod               # Production stack
+
 # Database
-DB_HOST=postgres
-DB_PORT=5432
-DB_NAME=lawyered
-DB_USER=postgres
-DB_PASSWORD=postgres_dev_password
+npm run db:seed                   # Seed demo user + wills (host)
+npm run db:seed:reset             # Wipe and re-seed demo data
+cd apps/backend && npm run db:migrate   # Run migrations manually
 
-# Backend
-BACKEND_PORT=3001
-JWT_SECRET=your_super_secret_jwt_key_change_in_production
-JWT_EXPIRATION=24h
-
-# Frontend
-FRONTEND_PORT=3000
-NEXT_PUBLIC_API_URL=http://localhost:3001/api
-
-# OpenAI
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4o-mini
-
-# Application
-NODE_ENV=development
+# Build & test
+npm run build                     # Build backend + frontend
+npm run test                      # Run backend tests
+cd apps/backend && npm run test:phases   # 26 phase unit tests
+npm run lint                      # Lint both apps
 ```
 
-## Development
+---
 
-### Backend (NestJS)
+## Environment variables
+
+Copy from `.env.example`. Key variables:
+
+| Variable | Purpose |
+|----------|---------|
+| `OPENAI_API_KEY` | Powers AI extraction (required for chat) |
+| `JWT_SECRET` | Signs auth tokens — **must change in production** |
+| `DB_*` | PostgreSQL connection |
+| `NEXT_PUBLIC_API_URL` | API URL used by the browser |
+| `CORS_ORIGINS` | Allowed frontend origins (comma-separated) |
+| `TYPEORM_SYNCHRONIZE` | `true` for local dev auto-schema; `false` in production |
+| `RUN_MIGRATIONS` | `true` to apply DB migrations on container start |
+
+See `.env.example` for the full list.
+
+---
+
+## API quick reference
 
 ```bash
-cd apps/backend
+# Health (returns 503 if database is down)
+curl http://localhost:3001/api/ready
 
-# Install dependencies
-npm install
+# Register
+curl -X POST http://localhost:3001/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","password":"SecurePass1"}'
 
-# Development with hot reload
-npm run start:dev
-
-# Build for production
-npm run build
-
-# Run tests
-npm run test
-
-# Lint code
-npm run lint
-
-# Format code
-npm run format
+# Login
+curl -X POST http://localhost:3001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"demo@lawyered.com","password":"Demo@Lawyered1"}'
 ```
 
-**Backend API Documentation**: http://localhost:3001/api
+Full API docs: [docs/API.md](docs/API.md)
 
-### Frontend (Next.js)
+---
 
-```bash
-cd apps/frontend
+## Project structure
 
-# Install dependencies
-npm install
-
-# Development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-
-# Lint code
-npm run lint
-
-# Format code
-npm run format
+```
+├── apps/
+│   ├── backend/       # NestJS API (auth, wills, AI, PDF)
+│   └── frontend/      # Next.js Will Builder UI
+├── docs/              # Architecture, deployment, API, demo guide
+├── docker-compose.yml
+├── docker-compose.prod.yml
+└── .env.example
 ```
 
-**Frontend**: http://localhost:3000
+---
 
-## Docker Compose Commands
+## Features
 
-```bash
-# Start all services
-docker-compose up -d
+- Conversational will creation with GPT-4o-mini
+- Live will preview and validation engine
+- Clarification flow when the AI is uncertain
+- PDF export (standard / detailed / simplified)
+- JWT authentication
+- Demo data with 5 sample wills
+- Production hardening: rate limiting, helmet, migrations, CI
 
-# Stop all services
-docker-compose down
+---
 
-# View logs
-docker-compose logs -f
+## Documentation
 
-# View specific service logs
-docker-compose logs -f backend
-docker-compose logs -f frontend
-docker-compose logs -f postgres
+| Doc | What's inside |
+|-----|----------------|
+| [DEMO.md](docs/DEMO.md) | Demo wills and testing checklist |
+| [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Production deploy, nginx, rollback |
+| [ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the system works |
+| [API.md](docs/API.md) | All endpoints |
+| [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Common errors and fixes |
+| [PRODUCTION_AUDIT.md](docs/PRODUCTION_AUDIT.md) | Security & readiness audit |
+| [COST_ANALYSIS.md](docs/COST_ANALYSIS.md) | OpenAI cost estimates |
 
-# Restart services
-docker-compose restart
-
-# Reset everything (remove volumes)
-docker-compose down -v
-
-# Rebuild images
-docker-compose build --no-cache
-
-# Enter database shell
-docker-compose exec postgres psql -U postgres -d lawyered
-
-# View running services
-docker-compose ps
-```
-
-## Database
-
-### Migrations
-
-```bash
-# From backend directory
-npm run typeorm migration:generate -- src/migrations/InitialSchema
-npm run typeorm migration:run
-npm run typeorm migration:revert
-```
-
-### Database Connection
-
-- **Host**: localhost (or postgres if using Docker)
-- **Port**: 5432
-- **User**: postgres
-- **Password**: postgres_dev_password
-- **Database**: lawyered
-
-Connect with pgAdmin or DBeaver using these credentials.
-
-## API Endpoints
-
-### Health Check
-
-```bash
-GET /api/health
-```
-
-Response:
-```json
-{
-  "status": "ok",
-  "timestamp": "2026-06-05T10:30:00Z"
-}
-```
-
-### Welcome
-
-```bash
-GET /api
-```
-
-Response:
-```json
-{
-  "message": "Welcome to Lawyered Will Maker API v0.1.0"
-}
-```
-
-## Features (Phase 0)
-
-✅ Project structure with monorepo setup
-✅ NestJS backend with TypeORM
-✅ Next.js frontend with Tailwind CSS
-✅ PostgreSQL database with Docker
-✅ Docker Compose for single-command startup
-✅ ESLint and Prettier configuration
-✅ TypeScript configuration
-✅ Health check endpoints
-✅ Environment configuration
-
-## Next Steps
-
-- **Phase 1**: Authentication (Register, Login, JWT)
-- **Phase 2**: Database schema design
-- **Phase 3**: AI extraction engine
-- **Phase 4**: Conversation memory and snapshots
-- **Phase 5**: Validation engine
-
-## Code Quality
-
-### Linting
-
-```bash
-npm run lint
-```
-
-### Formatting
-
-```bash
-npm run format
-```
-
-### Type Checking
-
-```bash
-npm run type-check
-```
+---
 
 ## Troubleshooting
 
-### Port Already in Use
+| Problem | Fix |
+|---------|-----|
+| AI not responding | Set `OPENAI_API_KEY` in `.env` and restart backend |
+| `db:seed` fails on host | Use `DB_HOST=localhost` in `.env` (not `postgres`) |
+| CORS errors | Set `CORS_ORIGINS=http://localhost:3000` |
+| Port in use | Change `BACKEND_PORT` / `FRONTEND_PORT` in `.env` |
+| Docker build fails | `docker compose build --no-cache` |
 
-```bash
-# Find process on port 3000
-netstat -tlnp | grep 3000
+More: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
 
-# Kill process (Linux/Mac)
-kill -9 <PID>
-
-# Or change port in .env
-BACKEND_PORT=3002
-FRONTEND_PORT=3001
-```
-
-### Database Connection Error
-
-1. Ensure PostgreSQL is running:
-   ```bash
-   docker-compose exec postgres pg_isready
-   ```
-
-2. Check database credentials in `.env`
-
-3. Verify network connectivity:
-   ```bash
-   docker-compose exec backend ping postgres
-   ```
-
-### Docker Build Fails
-
-```bash
-# Clear Docker cache
-docker system prune -a
-
-# Rebuild images
-docker-compose build --no-cache
-
-# Start services
-docker-compose up -d
-```
+---
 
 ## License
 
 MIT
-
-## Support
-
-For issues or questions, please create an issue in the repository.
-
----
-
-**Last Updated**: 2026-06-05
-**Version**: 0.1.0

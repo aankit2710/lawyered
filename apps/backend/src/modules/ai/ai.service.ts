@@ -12,6 +12,8 @@ export class AiService {
   private readonly logger = new Logger(AiService.name);
   private readonly client: OpenAI | null;
   private readonly model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  private consecutiveFailures = 0;
+  private circuitOpenUntil = 0;
 
   constructor() {
     const apiKey = process.env.OPENAI_API_KEY?.trim();
@@ -23,6 +25,11 @@ export class AiService {
     latestMessage: string
   ): Promise<ExtractionResult> {
     if (!this.client) {
+      return this.withMeta(this.fallbackExtract(snapshot, latestMessage), 'fallback');
+    }
+
+    if (Date.now() < this.circuitOpenUntil) {
+      this.logger.warn('OpenAI circuit open — using fallback heuristics');
       return this.withMeta(this.fallbackExtract(snapshot, latestMessage), 'fallback');
     }
 
@@ -78,6 +85,8 @@ export class AiService {
           );
         }
 
+        this.consecutiveFailures = 0;
+
         return {
           ...validated.result,
           usage,
@@ -93,6 +102,7 @@ export class AiService {
         );
 
         if (!retryable || attempt >= maxRetries) {
+          this.registerCircuitFailure();
           this.logger.warn(
             `OpenAI extraction failed after retries, using fallback heuristics: ${message}`
           );
@@ -104,10 +114,22 @@ export class AiService {
       }
     }
 
+    this.registerCircuitFailure();
     this.logger.warn(
       `OpenAI extraction failed, using fallback heuristics: ${String(lastError)}`
     );
     return this.withMeta(this.fallbackExtract(snapshot, latestMessage), 'fallback');
+  }
+
+  private registerCircuitFailure() {
+    this.consecutiveFailures += 1;
+    const threshold = Number(process.env.OPENAI_CIRCUIT_FAILURE_THRESHOLD ?? 5);
+    const cooldownMs = Number(process.env.OPENAI_CIRCUIT_COOLDOWN_MS ?? 60000);
+    if (this.consecutiveFailures >= threshold) {
+      this.circuitOpenUntil = Date.now() + cooldownMs;
+      this.consecutiveFailures = 0;
+      this.logger.error(`OpenAI circuit opened for ${cooldownMs}ms after repeated failures`);
+    }
   }
 
   /** Exposed for unit tests against deterministic fallback heuristics. */

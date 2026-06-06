@@ -1,7 +1,7 @@
 ﻿# Lawyered Will Maker - Complete Phase-Wise TODO Task List
 
 **Project**: AI-Assisted Will Maker using Next.js, NestJS, PostgreSQL, OpenAI GPT-4o-mini, Docker
-**Status**: Phase 0 Complete ✅ | Phase 1 Complete ✅ | Phase 2 Complete ✅ | Phase 3 Core Complete ✅ | Phase 4 Core Complete ✅ | Phase 5 Core Complete ✅ | Phase 6 Complete ✅ | Phase 7 Complete ✅
+**Status**: Phase 0 Complete ? | Phase 1 Complete ? | Phase 2 Complete ? | Phase 3 Complete ? | Phase 4 Core Complete ? | Phase 5 Complete ? | Phase 6 Complete ? | Phase 7 Complete ? | Phase 8 Complete ? | Phase 9 Complete ?
 **Last Updated**: 2026-06-06
 
 ---
@@ -58,8 +58,8 @@
 - [x] Create .env.example with all required variables
 
 ### Deliverable
-âœ… Application boots successfully with `docker-compose up`
-âœ… All services communicate (frontend â†’ backend â†’ database)
+✅ Application boots successfully with `docker-compose up`
+✅ All services communicate (frontend → backend → database)
 
 ---
 
@@ -117,10 +117,10 @@
 - [x] Add logout functionality
 
 ### Deliverable
-âœ… User can register with email and password
-âœ… User can login and receive JWT token
-âœ… Protected endpoints reject unauthenticated requests
-âœ… User can access GET /auth/me and see their profile
+✅ User can register with email and password
+✅ User can login and receive JWT token
+✅ Protected endpoints reject unauthenticated requests
+✅ User can access GET /auth/me and see their profile
 
 ---
 
@@ -144,12 +144,12 @@
 #### 2.2 - Testator Information
 - [x] Create `testators` table (id, will_id, name, age, address, sound_mind, dob)
 - [x] Create migration
-- [x] Add relationship: Will â†’ Testator (1:1)
+- [x] Add relationship: Will → Testator (1:1)
 
 #### 2.3 - Assets Management
 - [x] Create `assets` table (id, will_id, name, description, location, value, type)
 - [x] Create migration
-- [x] Add relationship: Will â†’ Asset (1:many)
+- [x] Add relationship: Will → Asset (1:many)
 - [x] Add index on will_id
 
 #### 2.4 - Beneficiaries & Allocations
@@ -157,14 +157,14 @@
 - [x] Create `asset_allocations` table (id, asset_id, beneficiary_id, percentage)
 - [x] Create migrations
 - [x] Add constraint: percentage sum per asset = 100%
-- [x] Add relationships: Asset â†’ Beneficiary (many:many through allocation)
+- [x] Add relationships: Asset → Beneficiary (many:many through allocation)
 
 #### 2.5 - Executors, Guardians & Witnesses
 - [x] Create `executors` table (id, will_id, name, contact, primary_backup)
 - [x] Create `guardians` table (id, will_id, name, relationship, contact, for_minors)
 - [x] Create `witnesses` table (id, will_id, name, age, contact, signature_date)
 - [x] Create migrations
-- [x] Add relationships: Will â†’ Executor, Guardian, Witness (1:many)
+- [x] Add relationships: Will → Executor, Guardian, Witness (1:many)
 
 #### 2.6 - Conversation & Snapshots
 - [x] Create `chat_messages` table (id, will_id, role, content, created_at)
@@ -186,10 +186,10 @@
 - [x] Create seed with edge cases (multiple beneficiaries, multiple assets)
 
 ### Deliverable
-âœ… Database schema complete and documented
-âœ… All migrations run successfully
-âœ… Seed data loads without errors
-âœ… ER diagram matches implementation
+✅ Database schema complete and documented
+✅ All migrations run successfully
+✅ Seed data loads without errors
+✅ ER diagram matches implementation
 
 ---
 
@@ -254,9 +254,9 @@
 - [x] Cost tracking: estimate per message
 
 ### Deliverable
-âœ… User sends "My house goes to my son" â†’ AI extracts Asset + Beneficiary
-âœ… API returns structured JSON with confidence score
-âœ… Message stored in database for history
+✅ User sends "My house goes to my son" → AI extracts Asset + Beneficiary
+✅ API returns structured JSON with confidence score
+✅ Message stored in database for history
 
 ---
 
@@ -290,7 +290,7 @@
   }
   ```
 - [x] Document snapshot fields
-- [ ] Create snapshot validation schema
+- [x] Create snapshot validation schema
 
 #### 4.2 - Snapshot Lifecycle
 - [x] Create `SnapshotService`
@@ -322,14 +322,14 @@
 #### 4.6 - Cost Analysis
 - [ ] Calculate tokens per message with snapshot approach
 - [ ] Compare vs. full history approach
-- [ ] Log token usage per request
+- [x] Log token usage per request
 - [ ] Create cost dashboard UI
 
 ### Deliverable
-âœ… Conversation persists across 20+ messages without token explosion
-âœ… AI remembers all previously collected information
-âœ… Token usage remains predictable and low
-âœ… Snapshot can be loaded to resume interrupted will
+✅ Conversation persists across 20+ messages without token explosion
+✅ AI remembers all previously collected information
+✅ Token usage remains predictable and low
+✅ Snapshot can be loaded to resume interrupted will
 
 ---
 
@@ -390,9 +390,9 @@
 - [x] Display warnings in non-blocking way
 
 ### Deliverable
-âœ… Validation endpoint returns: 60% complete, needs: executor, 1 witness, beneficiary contacts
-âœ… Impossible to proceed without minimum required fields
-âœ… Clear visual feedback in frontend
+✅ Validation endpoint returns: 60% complete, needs: executor, 1 witness, beneficiary contacts
+✅ Impossible to proceed without minimum required fields
+✅ Clear visual feedback in frontend
 
 ---
 
@@ -408,7 +408,7 @@
 
 #### 6.1 - Ambiguity Detection
 - [x] Update AI prompt to detect ambiguities
-- [x] Example: "My son gets everything" â†’ which son?
+- [x] Example: "My son gets everything" → which son?
 - [x] Modify response schema to include `ambiguities` array
 - [x] Return list of detected ambiguities
 
@@ -429,7 +429,7 @@
 - [x] Example: "Actually make Amit the executor"
 - [x] Implement replace logic in UpdateApplier
 - [x] Update snapshot accordingly
-- [ ] Test change scenarios (executor, beneficiary, asset)
+- [x] Test change scenarios (executor, beneficiary, asset)
 
 #### 6.5 - Clarification Requests
 - [x] Create POST /wills/:willId/clarify endpoint
@@ -445,10 +445,10 @@
 - [x] Test: Contradictory statements handling
 
 ### Deliverable
-âœ… AI detects and flags ambiguities
-âœ… AI suggests clarification questions
-âœ… User can correct information
-âœ… Snapshot updates with corrections
+✅ AI detects and flags ambiguities
+✅ AI suggests clarification questions
+✅ User can correct information
+✅ Snapshot updates with corrections
 
 ---
 
@@ -522,10 +522,10 @@
 - [x] Implement local draft saving
 
 ### Deliverable
-âœ… Two-panel interface with chat and live will preview
-âœ… Real-time updates as user enters information
-âœ… Clear progress tracking and validation feedback
-âœ… Responsive and accessible UI
+✅ Two-panel interface with chat and live will preview
+✅ Real-time updates as user enters information
+✅ Clear progress tracking and validation feedback
+✅ Responsive and accessible UI
 
 ---
 
@@ -540,68 +540,68 @@
 ### Tasks
 
 #### 8.1 - PDF Template Design
-- [ ] Create HTML template for will
-- [ ] Include testator information
-- [ ] Include asset allocation details
-- [ ] Include executor appointment
-- [ ] Include guardian appointment
-- [ ] Include witness declaration section
-- [ ] Add signature lines and dates
+- [x] Create HTML template for will
+- [x] Include testator information
+- [x] Include asset allocation details
+- [x] Include executor appointment
+- [x] Include guardian appointment
+- [x] Include witness declaration section
+- [x] Add signature lines and dates
 
 #### 8.2 - Puppeteer Setup
-- [ ] Install puppeteer package
-- [ ] Create PdfService
-- [ ] Implement: `generateWillPdf(willId)`
-- [ ] Configure page margins and formatting
-- [ ] Test PDF output quality
+- [x] Install puppeteer package
+- [x] Create PdfService
+- [x] Implement: `generateWillPdf(willId)`
+- [x] Configure page margins and formatting
+- [x] Test PDF output quality
 
 #### 8.3 - PDF Generation Endpoint
-- [ ] Create GET /wills/:willId/pdf endpoint
-- [ ] Fetch will data from database
-- [ ] Generate PDF using template + data
-- [ ] Return PDF file with proper headers
-- [ ] Add filename from will title
+- [x] Create GET /wills/:willId/pdf endpoint
+- [x] Fetch will data from database
+- [x] Generate PDF using template + data
+- [x] Return PDF file with proper headers
+- [x] Add filename from will title
 
 #### 8.4 - Template Customization
-- [ ] Support multiple will formats (Standard, Detailed, Simplified)
-- [ ] Create template variants
-- [ ] Add company branding/logo
-- [ ] Customize fonts and styling
-- [ ] Add page numbers and headers/footers
+- [x] Support multiple will formats (Standard, Detailed, Simplified)
+- [x] Create template variants
+- [x] Add company branding/logo
+- [x] Customize fonts and styling
+- [x] Add page numbers and headers/footers
 
 #### 8.5 - Signature Section
-- [ ] Add testator signature line and date
-- [ ] Add witness signature lines (2+)
-- [ ] Include print instructions
-- [ ] Add witness affidavit text
-- [ ] Reference will validity requirements
+- [x] Add testator signature line and date
+- [x] Add witness signature lines (2+)
+- [x] Include print instructions
+- [x] Add witness affidavit text
+- [x] Reference will validity requirements
 
 #### 8.6 - Asset Allocation Details
-- [ ] List all assets with descriptions
-- [ ] Show allocation percentages
-- [ ] Calculate monetary values if provided
-- [ ] Group by beneficiary
-- [ ] Format as clear tables
+- [x] List all assets with descriptions
+- [x] Show allocation percentages
+- [x] Calculate monetary values if provided
+- [x] Group by beneficiary
+- [x] Format as clear tables
 
 #### 8.7 - Frontend Integration
-- [ ] Create "Download PDF" button
-- [ ] Show loading state during generation
-- [ ] Handle generation errors
-- [ ] Add print-friendly view
-- [ ] Implement preview before download
+- [x] Create "Download PDF" button
+- [x] Show loading state during generation
+- [x] Handle generation errors
+- [x] Add print-friendly view
+- [x] Implement preview before download
 
 #### 8.8 - Testing & Quality
-- [ ] Generate PDFs with various will configurations
-- [ ] Verify formatting and legibility
-- [ ] Test on different browsers
-- [ ] Verify file size is reasonable
-- [ ] Test download functionality
+- [x] Generate PDFs with various will configurations
+- [x] Verify formatting and legibility
+- [x] Test on different browsers
+- [x] Verify file size is reasonable
+- [x] Test download functionality
 
 ### Deliverable
-âœ… User can download complete will as PDF
-âœ… PDF includes all required legal sections
-âœ… Professional formatting and layout
-âœ… Ready for printing and signing
+✅ User can download complete will as PDF
+✅ PDF includes all required legal sections
+✅ Professional formatting and layout
+✅ Ready for printing and signing
 
 ---
 
@@ -616,69 +616,69 @@
 ### Tasks
 
 #### 9.1 - Demo User Account
-- [ ] Create demo user: demo@lawyered.com
-- [ ] Set password: secure temporary password
-- [ ] Document in README
-- [ ] Seed in development database
-- [ ] Add to .env.example
+- [x] Create demo user: demo@lawyered.com
+- [x] Set password: secure temporary password
+- [x] Document in README
+- [x] Seed in development database
+- [x] Add to .env.example
 
 #### 9.2 - Partial Will (In-Progress)
-- [ ] Create incomplete will (30% complete)
-- [ ] Include testator info only
-- [ ] Missing: assets, beneficiaries, executor, witnesses
-- [ ] Show AI asking for next information
-- [ ] Demonstrate snapshot state
+- [x] Create incomplete will (30% complete)
+- [x] Include testator info only
+- [x] Missing: assets, beneficiaries, executor, witnesses
+- [x] Show AI asking for next information
+- [x] Demonstrate snapshot state
 
 #### 9.3 - Completed Will (Final)
-- [ ] Create complete will (100% complete)
-- [ ] Include all required sections
-- [ ] Multiple assets and beneficiaries
-- [ ] Proper executor and witnesses
-- [ ] Show PDF generation capability
+- [x] Create complete will (100% complete)
+- [x] Include all required sections
+- [x] Multiple assets and beneficiaries
+- [x] Proper executor and witnesses
+- [x] Show PDF generation capability
 
 #### 9.4 - Edge Case Examples
-- [ ] Will with ambiguities (to show handling)
-- [ ] Will with multiple beneficiaries
-- [ ] Will with complex asset allocation
-- [ ] Will with guardianship (minor beneficiaries)
-- [ ] Will with multiple executions (backup executors)
+- [x] Will with ambiguities (to show handling)
+- [x] Will with multiple beneficiaries
+- [x] Will with complex asset allocation
+- [x] Will with guardianship (minor beneficiaries)
+- [x] Will with multiple executions (backup executors)
 
 #### 9.5 - Seed Script
-- [ ] Create seed.ts file
-- [ ] Implement database reset option
-- [ ] Populate demo data
-- [ ] Create test message history
-- [ ] Generate snapshots
+- [x] Create seed.ts file
+- [x] Implement database reset option
+- [x] Populate demo data
+- [x] Create test message history
+- [x] Generate snapshots
 
 #### 9.6 - Documentation
-- [ ] Create DEMO.md guide
-- [ ] List demo user credentials
-- [ ] Document sample scenarios
-- [ ] Provide testing checklist
-- [ ] Add troubleshooting section
+- [x] Create DEMO.md guide
+- [x] List demo user credentials
+- [x] Document sample scenarios
+- [x] Provide testing checklist
+- [x] Add troubleshooting section
 
 #### 9.7 - Quick Start Guide
-- [ ] Document: docker-compose up
-- [ ] Document: navigate to http://localhost:3000
-- [ ] Document: login with demo@lawyered.com
-- [ ] Document: test features in order
-- [ ] Add video walkthrough (optional)
+- [x] Document: docker-compose up
+- [x] Document: navigate to http://localhost:3000
+- [x] Document: login with demo@lawyered.com
+- [x] Document: test features in order
+- [x] Add video walkthrough (optional)
 
 #### 9.8 - Testing Checklist
-- [ ] Test user registration
-- [ ] Test user login with demo account
-- [ ] Test chat with existing will
-- [ ] Test validation endpoint
-- [ ] Test PDF download
-- [ ] Test navigation and UI
-- [ ] Test on mobile
-- [ ] Test error handling
+- [x] Test user registration
+- [x] Test user login with demo account
+- [x] Test chat with existing will
+- [x] Test validation endpoint
+- [x] Test PDF download
+- [x] Test navigation and UI
+- [x] Test on mobile
+- [x] Test error handling
 
 ### Deliverable
-âœ… Reviewer can login immediately (demo@lawyered.com)
-âœ… Sample wills demonstrate all features
-âœ… PDF generation works with sample data
-âœ… Full user journey visible in 5 minutes
+✅ Reviewer can login immediately (demo@lawyered.com)
+✅ Sample wills demonstrate all features
+✅ PDF generation works with sample data
+✅ Full user journey visible in 5 minutes
 
 ---
 
@@ -693,80 +693,80 @@
 ### Tasks
 
 #### 10.1 - Token Usage Optimization
-- [ ] Implement token counting for all API calls
-- [ ] Log token usage per message
-- [ ] Create cost dashboard
-- [ ] Analyze: typical will = X tokens
-- [ ] Set cost alerts
+- [x] Implement token counting for all API calls
+- [x] Log token usage per message
+- [x] Create cost dashboard (`/api/metrics`)
+- [x] Analyze: typical will = X tokens (see COST_ANALYSIS.md)
+- [ ] Set cost alerts (use OpenAI dashboard billing alerts)
 
 #### 10.2 - Model Selection Confirmation
-- [ ] Verify GPT-4o-mini is optimal choice
-- [ ] Compare with GPT-4 turbo (cost vs. quality)
-- [ ] Test edge cases with chosen model
-- [ ] Benchmark extraction accuracy
-- [ ] Document model rationale
+- [x] Verify GPT-4o-mini is optimal choice
+- [x] Compare with GPT-4 turbo (cost vs. quality) — documented
+- [x] Test edge cases with chosen model (phase tests + fallback)
+- [ ] Benchmark extraction accuracy (formal benchmark optional)
+- [x] Document model rationale
 
 #### 10.3 - Caching Strategy
-- [ ] Implement response caching for prompts
+- [ ] Implement response caching for prompts (deferred — add Redis if needed)
 - [ ] Cache common extraction patterns
 - [ ] Set cache expiration policies
 - [ ] Measure cache hit rates
 - [ ] Calculate cost savings
 
 #### 10.4 - Database Optimization
-- [ ] Verify all indexes are in place
-- [ ] Run EXPLAIN ANALYZE on common queries
+- [x] Verify all indexes are in place
+- [ ] Run EXPLAIN ANALYZE on common queries (manual ops task)
 - [ ] Optimize slow queries
-- [ ] Implement connection pooling
-- [ ] Set up query monitoring
+- [x] Implement connection pooling
+- [x] Set up query monitoring (health + structured logs)
 
 #### 10.5 - Error Handling & Resilience
-- [ ] Implement exponential backoff for AI calls
-- [ ] Add circuit breaker for external APIs
-- [ ] Handle database connection failures
-- [ ] Implement graceful degradation
-- [ ] Log all errors systematically
+- [x] Implement exponential backoff for AI calls
+- [x] Add circuit breaker for external APIs
+- [x] Handle database connection failures (health/ready probes)
+- [x] Implement graceful degradation (fallback extraction)
+- [x] Log all errors systematically
 
 #### 10.6 - Monitoring & Logging
-- [ ] Set up structured logging (Winston/Pino)
-- [ ] Create log levels (debug, info, warn, error)
-- [ ] Implement centralized log aggregation
-- [ ] Create dashboards for key metrics
-- [ ] Set up alerts for critical errors
+- [x] Set up structured logging (Nest Logger + JSON interceptor)
+- [x] Create log levels (debug, info, warn, error)
+- [ ] Implement centralized log aggregation (use external APM in prod)
+- [x] Create dashboards for key metrics (`/api/metrics`)
+- [ ] Set up alerts for critical errors (wire to Datadog/Sentry in prod)
 
 #### 10.7 - Security Hardening
-- [ ] Implement rate limiting
-- [ ] Add CORS configuration
-- [ ] Implement HTTPS enforcement
-- [ ] Add input validation and sanitization
-- [ ] Review and fix security vulnerabilities
+- [x] Implement rate limiting
+- [x] Add CORS configuration
+- [x] Implement HTTPS enforcement (reverse proxy / TLS termination)
+- [x] Add input validation and sanitization
+- [x] Review and fix security vulnerabilities (password leak fix, DTOs)
 
 #### 10.8 - Deployment Configuration
-- [ ] Create production Dockerfile
-- [ ] Configure environment variables
-- [ ] Set up CI/CD pipeline
-- [ ] Implement database migrations in deployment
-- [ ] Create rollback procedures
+- [x] Create production Dockerfile
+- [x] Configure environment variables
+- [x] Set up CI/CD pipeline (GitHub Actions)
+- [x] Implement database migrations in deployment
+- [x] Create rollback procedures (documented)
 
 #### 10.9 - Documentation
-- [ ] Create Architecture.md
-- [ ] Document API endpoints
-- [ ] Create deployment guide
-- [ ] Document cost analysis
-- [ ] Create troubleshooting guide
+- [x] Create Architecture.md
+- [x] Document API endpoints
+- [x] Create deployment guide
+- [x] Document cost analysis
+- [x] Create troubleshooting guide
 
 #### 10.10 - Final Testing
-- [ ] Load test: 100 concurrent users
+- [ ] Load test: 100 concurrent users (manual before high traffic)
 - [ ] Stress test: rapid message sending
-- [ ] Test failover scenarios
-- [ ] Verify cost estimates
-- [ ] Security audit
+- [x] Test failover scenarios (circuit breaker + fallback)
+- [x] Verify cost estimates
+- [ ] Security audit (recommended before public launch)
 
 ### Deliverable
-âœ… Production-ready application
-âœ… Cost predictable and documented
-âœ… Monitoring and alerting in place
-âœ… Deployment automated and repeatable
+✅ Production-ready application
+✅ Cost predictable and documented
+✅ Monitoring and alerting in place
+✅ Deployment automated and repeatable
 
 ---
 
@@ -775,21 +775,21 @@
 ### Critical Path
 ```
 Phase 0 (Setup)
-    â†“
+    ↓
 Phase 1 (Auth) + Phase 2 (Database) [parallel]
-    â†“
+    ↓
 Phase 3 (AI Core)
-    â†“
+    ↓
 Phase 4 (Memory) + Phase 5 (Validation) [parallel]
-    â†“
+    ↓
 Phase 6 (Advanced AI)
-    â†“
+    ↓
 Phase 7 (UI)
-    â†“
+    ↓
 Phase 8 (PDF)
-    â†“
+    ↓
 Phase 9 (Demo Data)
-    â†“
+    ↓
 Phase 10 (Production)
 ```
 
@@ -810,12 +810,12 @@ Phase 10 (Production)
 
 ## Key Architecture Principles
 
-âœ… **Memory Efficiency**: Send snapshot + latest message only (NOT full history)
-âœ… **Cost Conscious**: Use GPT-4o-mini, track tokens, optimize prompts
-âœ… **Rule-Based Validation**: Never trust AI for legality checks
-âœ… **Deterministic Extraction**: Structured outputs, schema validation
-âœ… **User-Centric**: Save progress, handle corrections, clear feedback
-âœ… **Production Ready**: Monitoring, error handling, security, scalability
+✅ **Memory Efficiency**: Send snapshot + latest message only (NOT full history)
+✅ **Cost Conscious**: Use GPT-4o-mini, track tokens, optimize prompts
+✅ **Rule-Based Validation**: Never trust AI for legality checks
+✅ **Deterministic Extraction**: Structured outputs, schema validation
+✅ **User-Centric**: Save progress, handle corrections, clear feedback
+✅ **Production Ready**: Monitoring, error handling, security, scalability
 
 ---
 

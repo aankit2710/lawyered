@@ -9,8 +9,8 @@
     "apps/shared"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace=apps/backend\" \"npm run dev --workspace=apps/frontend\"",
-    "dev:backend": "npm run dev --workspace=apps/backend",
+    "dev": "concurrently \"npm run start:dev --workspace=apps/backend\" \"npm run dev --workspace=apps/frontend\"",
+    "dev:backend": "npm run start:dev --workspace=apps/backend",
     "dev:frontend": "npm run dev --workspace=apps/frontend",
     "build": "npm run build --workspace=apps/backend && npm run build --workspace=apps/frontend",
     "build:backend": "npm run build --workspace=apps/backend",
@@ -22,9 +22,13 @@
     "test:e2e": "npm run test:e2e --workspace=apps/backend",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up -d",
+    "docker:prod": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build",
+    "docker:prod:seed": "RUN_SEED=true docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
-    "docker:reset": "docker-compose down -v && docker-compose up -d"
+    "docker:reset": "docker-compose down -v && docker-compose up -d",
+    "db:seed": "npm run db:seed --workspace=apps/backend",
+    "db:seed:reset": "npm run db:seed:reset --workspace=apps/backend"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

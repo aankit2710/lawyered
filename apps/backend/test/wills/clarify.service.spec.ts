@@ -13,6 +13,7 @@ describe('ClarifyService (Phase 6)', () => {
   let aiService: any;
   let snapshotService: any;
   let updateApplier: any;
+  let aiMetrics: any;
   let clarifyService: ClarifyService;
 
   const snapshot = (): WillSnapshotState => ({
@@ -55,11 +56,16 @@ describe('ClarifyService (Phase 6)', () => {
       extractFromMessage: jest.fn(),
     };
 
+    aiMetrics = {
+      recordExtraction: jest.fn(),
+    };
+
     clarifyService = new ClarifyService(
       willsService,
       aiService,
       snapshotService,
       updateApplier,
+      aiMetrics,
     );
   });
 

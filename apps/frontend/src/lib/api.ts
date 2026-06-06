@@ -15,3 +15,16 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && typeof window !== 'undefined') {
+      useAuthStore.getState().logout();
+      if (!window.location.pathname.startsWith('/auth')) {
+        window.location.href = '/auth/login';
+      }
+    }
+    return Promise.reject(error);
+  },
+);

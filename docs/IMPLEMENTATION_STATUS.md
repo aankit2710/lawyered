@@ -132,6 +132,10 @@ Ready to implement:
 
 - [PHASE_0_COMPLETION.md](./PHASE_0_COMPLETION.md) - Phase 0 details
 - [PHASE_1_COMPLETION.md](./PHASE_1_COMPLETION.md) - Phase 1 details
+- [PHASES_0_7_AUDIT.md](./PHASES_0_7_AUDIT.md) - Full audit Phases 0–7
+- [PHASE_8_COMPLETION.md](./PHASE_8_COMPLETION.md) - Phase 8 PDF export
+- [PHASE_9_COMPLETION.md](./PHASE_9_COMPLETION.md) - Phase 9 demo data
+- [DEMO.md](./DEMO.md) - Demo guide & checklist
 - [PHASE_3_COMPLETION.md](./PHASE_3_COMPLETION.md) - Phase 3 details
 - [PHASE_6_COMPLETION.md](./PHASE_6_COMPLETION.md) - Phase 6 details
 - [PHASE_7_COMPLETION.md](./PHASE_7_COMPLETION.md) - Phase 7 details
@@ -153,7 +157,9 @@ Ready to implement:
 | Phase 5 | ✅ Core Complete | 1 session | 2026-06-06 |
 | Phase 6 | ✅ Complete | tests + clarify flow | 2026-06-06 |
 | Phase 7 | ✅ Complete | Live Will Builder UI | 2026-06-06 |
-| Phase 8+ | 📋 Planned | - | Future |
+| Phase 8 | ✅ Complete | PDF export + Puppeteer | 2026-06-06 |
+| Phase 9 | ✅ Complete | Demo seed + DEMO.md | 2026-06-06 |
+| Phase 10 | ✅ Complete | Security, CI/CD, migrations, docs | 2026-06-06 |
 
 ---
 

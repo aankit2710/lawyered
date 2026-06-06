@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 
 import { AiService } from '../ai/ai.service';
+import { AiMetricsService } from '../metrics/ai-metrics.service';
 import { ExtractionResult } from './memory/will-snapshot-state';
 import { User } from '../users/entities/user.entity';
 import { SnapshotService } from './snapshot.service';
@@ -17,7 +18,8 @@ export class ChatService {
     private readonly willsService: WillsService,
     private readonly aiService: AiService,
     private readonly snapshotService: SnapshotService,
-    private readonly updateApplier: UpdateApplierService
+    private readonly updateApplier: UpdateApplierService,
+    private readonly aiMetrics: AiMetricsService,
   ) {}
 
   async processMessage(user: User, willId: string, message: string) {
@@ -35,6 +37,7 @@ export class ChatService {
     await this.willsService.saveChatMessage(willId, 'user', trimmedMessage);
 
     const extraction = await this.aiService.extractFromMessage(currentSnapshot, trimmedMessage);
+    this.aiMetrics.recordExtraction(extraction.usage ? 'openai' : 'fallback', extraction.usage);
 
     const askedQuestions = Array.isArray(currentSnapshot.askedQuestions)
       ? currentSnapshot.askedQuestions

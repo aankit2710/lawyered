@@ -1,0 +1,30 @@
+# Production overrides — use: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+services:
+  postgres:
+    restart: unless-stopped
+
+  backend:
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      TYPEORM_SYNCHRONIZE: "false"
+      RUN_MIGRATIONS: "true"
+      RUN_SEED: ${RUN_SEED:-false}
+      DB_POOL_MAX: ${DB_POOL_MAX:-20}
+      THROTTLE_TTL_MS: ${THROTTLE_TTL_MS:-60000}
+      THROTTLE_LIMIT: ${THROTTLE_LIMIT:-120}
+      TRUST_PROXY: "true"
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  frontend:
+    restart: unless-stopped
+    build:
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001/api}
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001/api}

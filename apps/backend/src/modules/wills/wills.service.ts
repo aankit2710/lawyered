@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { UpdateWillDto } from './dto/update-will.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { Will } from './entities/will.entity';
@@ -92,13 +93,34 @@ export class WillsService {
     });
   }
 
-  async updateWill(willId: string, updates: Partial<Will>): Promise<Will | null> {
-    await this.willsRepository.update(willId, updates);
+  async updateWill(willId: string, updates: UpdateWillDto): Promise<Will | null> {
+    const payload: Partial<Will> = {};
+
+    if (updates.title !== undefined) {
+      payload.title = updates.title.trim();
+    }
+    if (updates.status !== undefined) {
+      payload.status = updates.status;
+    }
+
+    if (Object.keys(payload).length === 0) {
+      throw new BadRequestException('At least one of title or status is required');
+    }
+
+    await this.willsRepository.update(willId, payload);
     return this.findById(willId);
   }
 
+  async syncValidationFields(
+    willId: string,
+    fields: { completion_percentage: number; status: string },
+  ): Promise<void> {
+    await this.willsRepository.update(willId, fields);
+  }
+
   async updateCompletionPercentage(willId: string, percentage: number): Promise<Will | null> {
-    return this.updateWill(willId, { completion_percentage: percentage });
+    await this.willsRepository.update(willId, { completion_percentage: percentage });
+    return this.findById(willId);
   }
 
   async deleteWill(willId: string): Promise<void> {

@@ -1,18 +1,19 @@
 # Frontend Dockerfile for Next.js
 
-FROM node:18-alpine@sha256:8d6421d663b4c28fd3ebc498332f249011d118945588d0a35cb9bc4b8ca09d9e AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies from the frontend app lockfile for reproducible builds.
+ARG NEXT_PUBLIC_API_URL=http://localhost:3001/api
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 COPY apps/frontend/package.json apps/frontend/package-lock.json ./
 RUN npm ci
 
-# Copy frontend sources and build the app.
 COPY apps/frontend ./
 RUN npm run build
 
-FROM node:18-alpine@sha256:8d6421d663b4c28fd3ebc498332f249011d118945588d0a35cb9bc4b8ca09d9e AS runner
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 ENV NODE_ENV=production
